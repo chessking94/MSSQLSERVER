@@ -1,0 +1,12 @@
+﻿USE [ChessAnalysis]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ClearCheatTestTables] AS
+
+TRUNCATE TABLE CheatTestMoves
+DELETE FROM CheatTestGames
+DBCC CHECKIDENT(CheatTestGames, RESEED, 0)
+GO

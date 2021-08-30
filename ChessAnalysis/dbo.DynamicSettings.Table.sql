@@ -1,0 +1,17 @@
+﻿USE [ChessAnalysis]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DynamicSettings](
+	[SettingID] [int] IDENTITY(1,1) NOT NULL,
+	[SettingName] [varchar](30) NULL,
+	[SettingValue] [varchar](30) NULL,
+	[SettingDesc] [varchar](100) NULL,
+ CONSTRAINT [PK_DS_SettingID] PRIMARY KEY CLUSTERED 
+(
+	[SettingID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
