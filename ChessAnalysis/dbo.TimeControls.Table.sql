@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[TimeControls](
 	[TimeControl] [varchar](15) NOT NULL,
 	[TimeControlType] [varchar](20) NULL,
 	[CorrFlag] [tinyint] NULL,
+	[TimeControlRank] [int] NULL,
  CONSTRAINT [PK_TC_TimeControl] PRIMARY KEY CLUSTERED 
 (
 	[TimeControl] ASC
