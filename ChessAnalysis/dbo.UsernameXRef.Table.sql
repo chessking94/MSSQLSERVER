@@ -22,6 +22,7 @@ CREATE TABLE [dbo].[UsernameXRef](
 	[BlitzGames] [int] NULL,
 	[RapidGames] [int] NULL,
 	[DailyGames] [int] NULL,
+	[Note] [varchar](50) NULL,
  CONSTRAINT [PK_UXR_PlayerID] PRIMARY KEY CLUSTERED 
 (
 	[PlayerID] ASC
@@ -30,7 +31,7 @@ CREATE TABLE [dbo].[UsernameXRef](
 GO
 SET ANSI_PADDING ON
 GO
-CREATE NONCLUSTERED INDEX [Idx_UXR_SourceDownload] ON [dbo].[UsernameXRef]
+CREATE NONCLUSTERED INDEX [IDX_UXR_SourceDownload] ON [dbo].[UsernameXRef]
 (
 	[Source] ASC,
 	[DownloadFlag] ASC
