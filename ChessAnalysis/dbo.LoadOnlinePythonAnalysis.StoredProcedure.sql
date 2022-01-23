@@ -273,7 +273,7 @@ BEGIN
 
 	--chess.com and lichess pgn downloads do not have a PlyCount tag, need to add manually
 	UPDATE g
-	SET g.Moves = m.MaxMove
+	SET g.Moves = ISNULL(m.MaxMove, 0)
 	FROM OnlineGames g
 	LEFT JOIN (SELECT GameID, MAX(MoveNumber) MaxMove FROM OnlineMoves WHERE DateAdded >= @dte GROUP BY GameID) m ON g.GameID = m.GameID
 	WHERE NULLIF(g.Moves, '') IS NULL

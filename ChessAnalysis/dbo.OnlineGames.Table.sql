@@ -23,6 +23,8 @@ CREATE TABLE [dbo].[OnlineGames](
 	[Source] [varchar](15) NULL,
 	[SourceID] [varchar](20) NULL,
 	[TimeControl] [varchar](15) NULL,
+	[CDCAccuracyWhite] [decimal](5, 2) NULL,
+	[CDCAccuracyBlack] [decimal](5, 2) NULL,
  CONSTRAINT [PK_OG_GameID] PRIMARY KEY CLUSTERED 
 (
 	[GameID] ASC
