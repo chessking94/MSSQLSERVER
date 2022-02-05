@@ -43,9 +43,9 @@ BEGIN
 	JOIN tempAnalysisContents t ON g.SourceID = dbo.sqlSplit(t.oneline, CHAR(9), 1) AND g.Source = 'Chess.com'
 	WHERE dbo.sqlSplit(t.oneline, CHAR(9), 1) <> 'SourceID'
 	AND (
-		g.CDCAccuracyWhite <> NULLIF(dbo.sqlSplit(t.oneline, CHAR(9), 2), 'NULL')
+		ISNULL(CAST(g.CDCAccuracyWhite AS varchar(10)), '') <> NULLIF(dbo.sqlSplit(t.oneline, CHAR(9), 2), 'NULL')
 		OR
-		g.CDCAccuracyBlack <> NULLIF(dbo.sqlSplit(t.oneline, CHAR(9), 3), 'NULL')
+		ISNULL(CAST(g.CDCAccuracyBlack AS varchar(10)), '') <> NULLIF(dbo.sqlSplit(t.oneline, CHAR(9), 3), 'NULL')
 	)
 
 	SET @ctr = @@ROWCOUNT --only return number of rows that had updates
