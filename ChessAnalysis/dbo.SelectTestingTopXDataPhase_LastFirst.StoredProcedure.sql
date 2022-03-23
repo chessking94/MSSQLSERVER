@@ -32,7 +32,7 @@ AND m.IsTablebase = 0
 AND m.T1_Eval NOT LIKE '#%'
 AND m.Move_Eval NOT LIKE '#%'
 AND (CASE WHEN m.Color = 'White' THEN ISNULL(g.WhiteLast, '') ELSE ISNULL(g.BlackLast, '') END) = @LastName
-AND (CASE WHEN m.Color = 'White' THEN ISNULL(g.WhiteFirst, '') ELSE ISNULL(g.BlackFirst, '') END) = @FirstName
+AND (CASE WHEN m.Color = 'White' THEN ISNULL(g.WhiteFirst, '') ELSE ISNULL(g.BlackFirst, '') END) = ISNULL(@FirstName, '')
 
 GROUP BY
 m.GameID,

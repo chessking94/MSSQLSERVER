@@ -23,6 +23,7 @@ CREATE TABLE [dbo].[UsernameXRef](
 	[RapidGames] [int] NULL,
 	[DailyGames] [int] NULL,
 	[Note] [varchar](50) NULL,
+	[TotalGames]  AS (((isnull([BulletGames],(0))+isnull([BlitzGames],(0)))+isnull([RapidGames],(0)))+isnull([DailyGames],(0))),
  CONSTRAINT [PK_UXR_PlayerID] PRIMARY KEY CLUSTERED 
 (
 	[PlayerID] ASC
