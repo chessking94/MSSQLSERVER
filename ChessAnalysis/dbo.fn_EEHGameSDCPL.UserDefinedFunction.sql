@@ -13,7 +13,7 @@ BEGIN
 	DECLARE @value decimal(5,2)
 
 	DECLARE @mx_acpl float
-	SET @mx_acpl = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'EEH Max Eval') AS float)
+	SET @mx_acpl = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'Max Eval') AS float)
 
 	SET @value =
 	(SELECT
