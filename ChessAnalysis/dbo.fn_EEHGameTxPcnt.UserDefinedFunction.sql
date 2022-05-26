@@ -21,9 +21,7 @@ BEGIN
 		WHERE GameID = @GameID
 		AND Color = @Color
 		AND IsTheory = 0
-		AND IsTablebase = 0
-		AND T1_Eval NOT LIKE '#%'
-		AND Move_Eval NOT LIKE '#%'
+		AND CP_Loss IS NOT NULL
 	)
 
 	RETURN @TxPcnt

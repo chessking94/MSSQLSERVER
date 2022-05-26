@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [dbo].[vwCheatTestMovesAnalyzed]
 
 AS
@@ -31,9 +32,7 @@ FROM (
 	JOIN ACPL_Ranges acpl ON m.CP_Loss >= acpl.LBound AND m.CP_Loss <= acpl.UBound
 		
 	WHERE m.IsTheory = 0
-	AND m.IsTablebase = 0
-	AND m.T1_Eval NOT LIKE '#%'
-	AND m.Move_Eval NOT LIKE '#%'
+	AND m.CP_Loss IS NOT NULL
 	AND ABS(CONVERT(float, m.T1_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'Max Eval') AS float)
 	AND ABS(CONVERT(float, m.Move_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'Max Eval') AS float)
 

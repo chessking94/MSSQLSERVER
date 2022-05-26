@@ -19,9 +19,7 @@ BEGIN
 		WHERE m.GameID = @GameID
 		AND m.Color = @Color
 		AND m.IsTheory = 0
-		AND m.IsTablebase = 0
-		AND m.T1_Eval NOT LIKE '#%'
-		AND m.Move_Eval NOT LIKE '#%'
+		AND m.CP_Loss IS NOT NULL
 	)
 	
 	RETURN ISNULL(@Pcnt, 1.00)

@@ -24,12 +24,9 @@ BEGIN
 		WHERE GameID = @GameID
 		AND Color = @Color
 		AND IsTheory = 0
-		AND IsTablebase = 0
-		AND T1_Eval NOT LIKE '#%'
-		AND Move_Eval NOT LIKE '#%'
+		AND CP_Loss IS NOT NULL
 		AND ABS(CONVERT(float, T1_Eval)) < @mx_acpl
 		AND ABS(CONVERT(float, Move_Eval)) < @mx_acpl
-		AND CP_Loss IS NOT NULL
 	)
 
 	RETURN ISNULL(@value, 0)

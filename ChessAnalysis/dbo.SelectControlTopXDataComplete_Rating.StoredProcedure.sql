@@ -51,9 +51,7 @@ JOIN Rating_Bins r ON (CASE WHEN m.Color = 'White' THEN g.WhiteElo ELSE g.BlackE
 
 WHERE g.CorrFlag = 0
 AND m.IsTheory = 0
-AND m.IsTablebase = 0
-AND m.T1_Eval NOT LIKE '#%'
-AND m.Move_Eval NOT LIKE '#%'
+AND m.CP_Loss IS NOT NULL
 AND (r.RatingGroup = @RatingGroup OR ISNULL(@RatingGroup, 'X') = 'X')
 
 GROUP BY

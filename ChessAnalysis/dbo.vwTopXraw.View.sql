@@ -6,6 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE VIEW [dbo].[vwTopXraw] AS
 
 SELECT
@@ -28,9 +29,7 @@ JOIN ControlGames g ON m.GameID = g.GameID
 
 WHERE g.CorrFlag = 0
 AND m.IsTheory = 0
-AND m.IsTablebase = 0
-AND m.T1_Eval NOT LIKE '#%'
-AND m.Move_Eval NOT LIKE '#%'
+AND m.CP_Loss IS NOT NULL
 
 GROUP BY
 m.GameID,

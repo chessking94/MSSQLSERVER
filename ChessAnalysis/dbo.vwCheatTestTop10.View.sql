@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [dbo].[vwCheatTestTop10]
 
 AS
@@ -25,9 +26,7 @@ Color,
 FROM CheatTestMoves
 
 WHERE IsTheory = 0
-AND IsTablebase = 0
-AND T1_Eval NOT LIKE '#%'
-AND Move_Eval NOT LIKE '#%'
+AND CP_Loss IS NOT NULL
 
 GROUP BY
 GameID,

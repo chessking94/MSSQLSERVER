@@ -8,6 +8,7 @@ GO
 
 
 
+
 CREATE VIEW [dbo].[vwExpectedScores] AS
 
 SELECT
@@ -30,9 +31,7 @@ JOIN Evaluation_Bins e ON m.T1_Eval >= e.LBound AND m.T1_Eval <= e.UBound
 
 where g.CorrFlag = 0
 AND m.IsTheory = 0
-AND m.IsTablebase = 0
-AND m.T1_Eval not like '#%'
-AND m.Move_Eval not like '#%'
+AND m.CP_Loss IS NOT NULL
 
 GROUP BY
 r.RatingGroup,

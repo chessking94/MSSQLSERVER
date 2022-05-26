@@ -27,9 +27,7 @@ JOIN CheatTestGames g ON m.GameID = g.GameID
 
 WHERE g.CorrFlag = 0
 AND m.IsTheory = 0
-AND m.IsTablebase = 0
-AND m.T1_Eval NOT LIKE '#%'
-AND m.Move_Eval NOT LIKE '#%'
+AND m.CP_Loss IS NOT NULL
 AND (CASE WHEN m.Color = 'White' THEN ISNULL(g.WhiteLast, '') ELSE ISNULL(g.BlackLast, '') END) = @LastName
 AND (CASE WHEN m.Color = 'White' THEN ISNULL(g.WhiteFirst, '') ELSE ISNULL(g.BlackFirst, '') END) = ISNULL(@FirstName, '')
 
