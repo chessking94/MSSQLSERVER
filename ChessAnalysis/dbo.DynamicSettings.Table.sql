@@ -7,7 +7,7 @@ GO
 CREATE TABLE [dbo].[DynamicSettings](
 	[SettingID] [int] IDENTITY(1,1) NOT NULL,
 	[SettingName] [varchar](30) NULL,
-	[SettingValue] [varchar](30) NULL,
+	[SettingValue] [varchar](100) NULL,
 	[SettingDesc] [varchar](100) NULL,
  CONSTRAINT [PK_DS_SettingID] PRIMARY KEY CLUSTERED 
 (

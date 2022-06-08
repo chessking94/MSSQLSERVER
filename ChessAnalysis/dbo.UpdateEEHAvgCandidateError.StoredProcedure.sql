@@ -7,7 +7,7 @@ GO
 CREATE PROCEDURE [dbo].[UpdateEEHAvgCandidateError] AS
 
 DECLARE @acpl_window float
-SET @acpl_window = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'ACPL Window') AS float)
+SET @acpl_window = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 2) AS float)
 
 UPDATE em
 SET em.AvgCandidateError = ae.AvgCandErr

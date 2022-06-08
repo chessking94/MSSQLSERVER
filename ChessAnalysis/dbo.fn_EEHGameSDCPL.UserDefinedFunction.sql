@@ -12,8 +12,8 @@ AS
 BEGIN
 	DECLARE @value decimal(5,2)
 
-	DECLARE @mx_acpl float
-	SET @mx_acpl = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'Max Eval') AS float)
+	DECLARE @mx_eval float
+	SET @mx_eval = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 3) AS float)
 
 	SET @value =
 	(SELECT
@@ -25,8 +25,10 @@ BEGIN
 		AND m.Color = @Color
 		AND m.IsTheory = 0
 		AND m.CP_Loss IS NOT NULL
-		AND ABS(CONVERT(float, m.T1_Eval)) < @mx_acpl
-		AND ABS(CONVERT(float, m.Move_Eval)) < @mx_acpl
+		AND ISNUMERIC(m.T1_Eval) = 1
+		AND ISNUMERIC(m.Move_Eval) = 1
+		AND ABS(CONVERT(float, m.T1_Eval)) < @mx_eval
+		AND ABS(CONVERT(float, m.Move_Eval)) < @mx_eval
 	)
 
 	RETURN ISNULL(@value, 0)

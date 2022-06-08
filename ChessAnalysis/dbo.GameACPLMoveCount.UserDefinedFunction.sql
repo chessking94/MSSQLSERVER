@@ -10,8 +10,8 @@ RETURNS int
 AS
 
 BEGIN
-	DECLARE @mx_acpl float
-	SET @mx_acpl = CAST((SELECT SettingValue FROM DynamicSettings WHERE SETtingName = 'Max ACPL') AS float)
+	DECLARE @mx_eval float
+	SET @mx_eval = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 3) AS float)
 
 	DECLARE @value int
 	SET @value =
@@ -24,8 +24,10 @@ BEGIN
 		AND Color = @color
 		AND IsTheory = 0
 		AND CP_Loss IS NOT NULL
-		AND ABS(CAST(CASE WHEN T1_Eval LIKE '#%' THEN '100' ELSE T1_Eval END AS float)) < @mx_acpl
-		AND ABS(CAST(CASE WHEN Move_Eval LIKE '#%' THEN '100' ELSE Move_Eval END AS float)) < @mx_acpl
+		AND ISNUMERIC(T1_Eval) = 1
+		AND ISNUMERIC(Move_Eval) = 1
+		AND ABS(CONVERT(float, T1_Eval)) < @mx_eval
+		AND ABS(CONVERT(float, Move_Eval)) < @mx_eval
 	)
 
 	RETURN ISNULL(@value, 0)

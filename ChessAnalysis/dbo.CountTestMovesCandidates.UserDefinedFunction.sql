@@ -11,7 +11,7 @@ AS
 
 BEGIN
 	DECLARE @acpl_window float
-	SET @acpl_window = CAST((SELECT SettingValue FROM DynamicSETtings WHERE SETtingName = 'ACPL Window') AS float)
+	SET @acpl_window = CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 2) AS float)
 
 	DECLARE @ct int
 

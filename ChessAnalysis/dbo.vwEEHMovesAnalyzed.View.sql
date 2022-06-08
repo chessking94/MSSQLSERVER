@@ -6,6 +6,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+
+
 CREATE VIEW [dbo].[vwEEHMovesAnalyzed]
 
 AS
@@ -34,8 +36,10 @@ FROM (
 		
 	WHERE m.IsTheory = 0
 	AND m.CP_Loss IS NOT NULL
-	AND ABS(CONVERT(float, m.T1_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'Max Eval') AS float)
-	AND ABS(CONVERT(float, m.Move_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingName = 'Max Eval') AS float)
+	AND ISNUMERIC(m.T1_Eval) = 1
+	AND ISNUMERIC(m.Move_Eval) = 1
+	AND ABS(CONVERT(float, m.T1_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 3) AS float)
+	AND ABS(CONVERT(float, m.Move_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 3) AS float)
 
 	GROUP BY
 	m.GameID,

@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [dbo].[vwCheatTestScore]
 
 AS
@@ -11,7 +12,7 @@ AS
 SELECT
 v.GameID,
 v.Color,
-ROUND(100*SUM(v.Score)/SUM(gp.ScoreWeight*s.Points), 2) AS Score
+100*SUM(v.Score)/SUM(gp.ScoreWeight*s.Points) AS Score
 
 FROM vwCheatTestMoveScores v
 JOIN GamePhases gp ON v.PhaseID = gp.PhaseID
