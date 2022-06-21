@@ -248,16 +248,6 @@ BEGIN
 
 	UPDATE EEHMoves
 	SET	StDevCandidate = dbo.SDEEHCandidateMoves(MoveID),
-		PcntCandidatesWithin10CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.00, 0.09),
-		PcntCandidatesWithin20CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.10, 0.19),
-		PcntCandidatesWithin30CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.20, 0.29),
-		PcntCandidatesWithin40CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.30, 0.39),
-		PcntCandidatesWithin50CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.40, 0.49),
-		PcntCandidatesWithin60CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.50, 0.59),
-		PcntCandidatesWithin70CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.60, 0.69),
-		PcntCandidatesWithin80CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.70, 0.79),
-		PcntCandidatesWithin90CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.80, 0.89),
-		PcntCandidatesWithin100CP = dbo.CalculateEEHCandidatesPercentages(MoveID, 0.90, 1.00),
 		MaterialWhite = dbo.CountMaterialWhite(FEN),
 		MaterialBlack = dbo.CountMaterialBlack(FEN),
 		TotalPieceCount = dbo.CountPieces(FEN)

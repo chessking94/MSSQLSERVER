@@ -13,7 +13,7 @@ AS
 --function taken from the CPLS SQL database FASTRpt
 
 BEGIN
-	IF @Position<1
+	IF @Position < 1
 	BEGIN
 		RETURN NULL
 	END
