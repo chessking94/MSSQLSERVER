@@ -23,7 +23,7 @@ def main():
     parser.add_argument(
         '-d', '--database',
         default = 'ChessAnalysis',
-        choices = ['ChessAnalysis'],
+        choices = ['ChessAnalysis', 'MLB', 'NFL'],
         help = 'Database to script'
     )
     
