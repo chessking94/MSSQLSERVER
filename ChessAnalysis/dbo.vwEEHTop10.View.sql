@@ -5,6 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 CREATE VIEW [dbo].[vwEEHTop10]
 
 AS
@@ -27,6 +28,10 @@ FROM EEHMoves
 
 WHERE IsTheory = 0
 AND CP_Loss IS NOT NULL
+AND ISNUMERIC(T1_Eval) = 1
+AND ISNUMERIC(Move_Eval) = 1
+AND ABS(CONVERT(float, T1_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 3) AS float)
+AND ABS(CONVERT(float, Move_Eval)) < CAST((SELECT SettingValue FROM DynamicSettings WHERE SettingID = 3) AS float)
 
 GROUP BY
 GameID,
