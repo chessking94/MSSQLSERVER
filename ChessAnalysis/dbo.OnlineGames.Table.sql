@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[OnlineGames](
 	[BlackFirst] [varchar](30) NULL,
 	[BlackElo] [int] NULL,
 	[ECO] [varchar](3) NULL,
-	[GameDate] [datetime] NULL,
+	[GameDate] [date] NULL,
 	[Tournament] [varchar](100) NULL,
 	[RoundNum] [varchar](8) NULL,
 	[Result] [decimal](2, 1) NULL,
