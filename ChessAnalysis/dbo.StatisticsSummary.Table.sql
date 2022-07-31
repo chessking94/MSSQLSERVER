@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[StatisticsSummary](
 	[Field] [varchar](5) NOT NULL,
 	[Rating] [smallint] NOT NULL,
 	[CorrFlag] [tinyint] NOT NULL,
-	[Color] [char](5) NOT NULL,
+	[Color] [varchar](5) NOT NULL,
 	[EvalGroup] [tinyint] NOT NULL,
 	[Count] [int] NULL,
 	[Average] [decimal](17, 15) NULL,
