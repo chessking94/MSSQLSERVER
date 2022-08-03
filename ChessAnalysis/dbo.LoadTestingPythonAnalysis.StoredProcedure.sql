@@ -82,7 +82,7 @@ BEGIN
 		T9_Eval, T10_Eval, T11_Eval, T12_Eval, T13_Eval, T14_Eval, T15_Eval, T16_Eval,
 		T17_Eval, T18_Eval, T19_Eval, T20_Eval, T21_Eval, T22_Eval, T23_Eval, T24_Eval,
 		T25_Eval, T26_Eval, T27_Eval, T28_Eval, T29_Eval, T30_Eval, T31_Eval, T32_Eval,
-		CP_Loss, Engine, Depth, AnalysisTime, FEN)
+		CP_Loss, Engine, Depth, AnalysisTime, FEN, Clock)
 	SELECT
 	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'GameID') AS GameID,
 	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'MoveNum') AS MoveNumber,
@@ -159,7 +159,8 @@ BEGIN
 	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'Engine') AS Engine,
 	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'Depth') AS Depth,
 	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'Time') AS AnalysisTime,
-	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'FEN') AS FEN
+	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'FEN') AS FEN,
+	(SELECT RTRIM(NULLIF(SUBSTRING(py.oneline, r2.StartChar, r2.FieldLength), SPACE(r2.FieldLength))) FROM Record02 r2 WHERE r2.Field = 'Clock') AS Clock
 
 	FROM tempAnalysisContentsPK py
 	WHERE LEFT(py.oneline, 2) = '02'

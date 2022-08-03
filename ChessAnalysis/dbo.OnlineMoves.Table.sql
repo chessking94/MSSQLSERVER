@@ -92,6 +92,7 @@ CREATE TABLE [dbo].[OnlineMoves](
 	[MaterialBlack] [int] NULL,
 	[TotalPieceCount] [int] NULL,
 	[PhaseID]  AS (case when [MoveNumber]<=(10) then (1) when [TotalPieceCount]<=(18) then (3) else (2) end) PERSISTED NOT NULL,
+	[Clock] [int] NULL,
  CONSTRAINT [PK_OM_MoveID] PRIMARY KEY CLUSTERED 
 (
 	[MoveID] ASC
