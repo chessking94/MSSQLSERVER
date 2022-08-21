@@ -9,6 +9,8 @@ CREATE TABLE [dbo].[TimeControls](
 	[TimeControlType] [varchar](20) NULL,
 	[CorrFlag] [tinyint] NULL,
 	[TimeControlRank] [int] NULL,
+	[Seconds]  AS (case when charindex('+',[TimeControl])>(0) then CONVERT([smallint],left([TimeControl],charindex('+',[TimeControl])-(1)))  end) PERSISTED,
+	[Increment]  AS (case when charindex('+',[TimeControl])>(0) then CONVERT([smallint],substring([TimeControl],charindex('+',[TimeControl])+(1),len([TimeControl])))  end) PERSISTED,
  CONSTRAINT [PK_TC_TimeControl] PRIMARY KEY CLUSTERED 
 (
 	[TimeControl] ASC
