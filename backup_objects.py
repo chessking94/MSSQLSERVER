@@ -2,8 +2,8 @@ import argparse
 import os
 
 def main():
-    def_path = r'C:\Users\eehunt\Repository\MSSQLSERVER'
-    vrs_num = '1.0'
+    def_path = os.path.abspath(os.path.dirname(__file__))
+    vrs_num = '1.1'
     parser = argparse.ArgumentParser(
         description = 'Local MS SQL Server Object Backup',
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
@@ -31,10 +31,6 @@ def main():
     config = vars(args)
     server = config['server']
     database = config['database']
-
-    if not os.path.isdir(def_path):
-        print(f'Root path {def_path} does not exist!')
-        quit()
 
     output_path = os.path.join(def_path, database)
     if not os.path.isdir(output_path):
