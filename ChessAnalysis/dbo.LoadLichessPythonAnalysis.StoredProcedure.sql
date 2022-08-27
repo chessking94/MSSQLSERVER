@@ -104,7 +104,8 @@ BEGIN
 		Depth,
 		Clock,
 		PGN_Eval,
-		PhaseID
+		PhaseID,
+		TimeSpent
 	)
 
 	SELECT
@@ -131,7 +132,8 @@ BEGIN
 	NULLIF(RTRIM(SUBSTRING(py.oneline, 259, 2)), '') AS Depth,
 	NULLIF(RTRIM(SUBSTRING(py.oneline, 261, 7)), '') AS Clock,
 	NULLIF(RTRIM(SUBSTRING(py.oneline, 268, 7)), '') AS PGN_Eval,
-	NULLIF(RTRIM(SUBSTRING(py.oneline, 275, 1)), '') AS PhaseID
+	NULLIF(RTRIM(SUBSTRING(py.oneline, 275, 1)), '') AS PhaseID,
+	NULLIF(RTRIM(SUBSTRING(py.oneline, 276, 7)), '') AS TimeSpent
 
 	FROM tempAnalysisContentsPK py
 	WHERE LEFT(py.oneline,2) = '02'

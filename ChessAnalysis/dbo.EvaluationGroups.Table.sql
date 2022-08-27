@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[EvaluationGroups](
 	[LBound] [decimal](5, 2) NULL,
 	[UBound] [decimal](5, 2) NULL,
 	[Meaning] [varchar](8) NULL,
+	[Range] [varchar](15) NULL,
  CONSTRAINT [PK_EG_GroupID] PRIMARY KEY CLUSTERED 
 (
 	[GroupID] ASC

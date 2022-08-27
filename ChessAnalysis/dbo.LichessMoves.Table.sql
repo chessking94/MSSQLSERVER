@@ -32,6 +32,7 @@ CREATE TABLE [dbo].[LichessMoves](
 	[Depth] [tinyint] NULL,
 	[Clock] [int] NULL,
 	[PGN_Eval] [varchar](7) NULL,
+	[TimeSpent] [int] NULL,
  CONSTRAINT [PK_LM_MoveID] PRIMARY KEY CLUSTERED 
 (
 	[MoveID] ASC
