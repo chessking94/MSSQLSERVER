@@ -78,6 +78,7 @@ BEGIN
 
 	ORDER BY py.ID
 
+	EXEC InsertNewTimeControls
 
 	--Record02 (game moves)
 	INSERT INTO LichessMoves (
