@@ -4,11 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-
-
-
-CREATE VIEW [dbo].[vwControlMoveScores]
+CREATE VIEW [dbo].[vwLichessMoveScores]
 
 AS
 
@@ -29,8 +25,9 @@ CASE
 	ELSE s.Score * gp.ScoreWeight * s.Points
 END AS Score
 
-FROM ControlMoves m
-JOIN ControlGames g ON m.GameID = g.GameID
+FROM LichessMoves m
+JOIN LichessGames g ON m.GameID = g.GameID
+JOIN TimeControls tc ON g.TimeControl = tc.TimeControl
 LEFT JOIN ACPL_Ranges acpl ON 
 	ABS((CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) - (CASE WHEN m.Move_Eval LIKE '%#+%' THEN 300 WHEN m.Move_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.Move_Eval) END)) >= acpl.LBound AND
 	ABS((CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) - (CASE WHEN m.Move_Eval LIKE '%#+%' THEN 300 WHEN m.Move_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.Move_Eval) END)) <= acpl.UBound
@@ -40,6 +37,6 @@ LEFT JOIN EvaluationGroups eg1 ON
 LEFT JOIN EvaluationGroups eg2 ON
 	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) >= eg2.LBound AND
 	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) <= eg2.UBound
-JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Control' AND gp.TimeControlType = (CASE WHEN g.CorrFlag = 1 THEN 'Correspondence' ELSE 'Classical' END)
+JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Lichess' AND gp.TimeControlType = tc.TimeControlType
 JOIN ScoreReference s ON eg2.GroupID = s.BestEvalGroup AND eg1.GroupID = s.PlayedEvalGroup AND acpl.ACPL_Group = s.ACPL_Group
 GO

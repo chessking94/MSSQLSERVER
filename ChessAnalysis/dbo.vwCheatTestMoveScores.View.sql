@@ -5,6 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 CREATE VIEW [dbo].[vwCheatTestMoveScores]
 
 AS
@@ -36,6 +37,6 @@ LEFT JOIN EvaluationGroups eg1 ON
 LEFT JOIN EvaluationGroups eg2 ON
 	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) >= eg2.LBound AND
 	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) <= eg2.UBound
-JOIN GamePhases gp ON m.PhaseID = gp.PhaseID
+JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Control' AND gp.TimeControlType = 'Classical'
 JOIN ScoreReference s ON eg2.GroupID = s.BestEvalGroup AND eg1.GroupID = s.PlayedEvalGroup AND acpl.ACPL_Group = s.ACPL_Group
 GO

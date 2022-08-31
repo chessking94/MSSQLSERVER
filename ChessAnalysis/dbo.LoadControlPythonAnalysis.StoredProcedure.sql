@@ -40,19 +40,19 @@ BEGIN
 	--Record01 (game data)
 	INSERT INTO ControlGames (WhiteLast, WhiteFirst, WhiteElo, BlackLast, BlackFirst, BlackElo, ECO, GameDate, Tournament, RoundNum, Result, Moves, CorrFlag)
 	SELECT
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'WhiteLast') AS WhiteLast,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'WhiteFirst') AS WhiteFirst,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'WhiteElo') AS WhiteElo,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'BlackLast') AS BlackLast,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'BlackFirst') AS BlackFirst,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'BlackElo') AS BlackElo,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'ECO') AS ECO,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'GameDate') AS GameDate,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'Tournament') AS Tournament,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'RoundNum') AS RoundNum,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'Result') AS Result,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'Moves') AS Moves,
-	(SELECT substring(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'CorrFlag') AS CorrFlag
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'WhiteLast') AS WhiteLast,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'WhiteFirst') AS WhiteFirst,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'WhiteElo') AS WhiteElo,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'BlackLast') AS BlackLast,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'BlackFirst') AS BlackFirst,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'BlackElo') AS BlackElo,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'ECO') AS ECO,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'GameDate') AS GameDate,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'Tournament') AS Tournament,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'RoundNum') AS RoundNum,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'Result') AS Result,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'Moves') AS Moves,
+	(SELECT SUBSTRING(py.oneline, r1.StartChar, r1.FieldLength) FROM Record01 r1 WHERE r1.Field = 'CorrFlag') AS CorrFlag
 
 	FROM tempAnalysisContentsPK py
 	WHERE LEFT(py.oneline,2) = '01'
@@ -256,7 +256,8 @@ BEGIN
 	UPDATE ControlMoves SET TotalMoves = dbo.CountControlMoves(MoveID) WHERE TotalMoves IS NULL
 
 	--recalcuate phase weights
-	UPDATE GamePhases SET ScoreWeight = dbo.fn_CalcGamePhaseWeight(PhaseID)
+	EXEC UpdatePhaseWeights @Source = 'Control', @TimeControlType = 'Correspondence'
+	EXEC UpdatePhaseWeights @Source = 'Control', @TimeControlType = 'Classical'
 	
 	SET @command = 'MOVE "C:\FileProcessing\Import\' + @vFileName + '" "' + 'C:\FileProcessing\Import\Archive\' + @vFileName + '"'
     EXEC master..xp_cmdshell @command

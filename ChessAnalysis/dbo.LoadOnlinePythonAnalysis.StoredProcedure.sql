@@ -24,6 +24,7 @@ DECLARE @vfilename varchar(100)
 DECLARE @command varchar(1000)
 DECLARE @ctr int
 DECLARE @dte datetime
+DECLARE @tctype varchar(20)
 
 OPEN vfiles
 FETCH NEXT FROM vfiles INTO @vfilename
@@ -270,12 +271,33 @@ BEGIN
 	WHERE NULLIF(g.Moves, '') IS NULL
 	AND DateAdded >= @dte
 
+	EXEC InsertNewTimeControls
+
 	--update corrflag for online games, using reference table
 	UPDATE g
-	SET g.CorrFlag = tc.CorrFlag
+	SET g.CorrFlag = (CASE tc.TimeControlType WHEN NULL THEN NULL WHEN 'Correspondence' THEN 1 ELSE 0 END)
 	FROM OnlineGames g
 	LEFT JOIN TimeControls tc ON g.TimeControl = tc.TimeControl
 	WHERE DateAdded >= @dte
+
+	--recalcuate phase weights
+	CREATE TABLE #temp (TimeControlType varchar(20))
+	INSERT INTO #temp
+	SELECT DISTINCT
+	tc.TimeControlType
+	FROM OnlineGames g
+	JOIN TimeControls tc ON g.TimeControl = tc.TimeControl
+	WHERE g.DateAdded >= @dte
+
+	SET @tctype = (SELECT TOP 1 TimeControlType FROM #temp)
+	WHILE @tctype IS NOT NULL
+	BEGIN
+		EXEC UpdatePhaseWeights @Source = 'Online', @TimeControlType = @tctype
+		DELETE FROM #temp WHERE TimeControlType = @tctype
+		SET @tctype = (SELECT TOP 1 TimeControlType FROM #temp)
+	END
+
+	DROP TABLE #temp
 
 	SET @command = 'MOVE "C:\FileProcessing\Import\' + @vFileName + '" "' + 'C:\FileProcessing\Import\Archive\' + @vFileName + '"'
     EXEC master..xp_cmdshell @command

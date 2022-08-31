@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [dbo].[vwOnlineMoveScores]
 
 AS
@@ -26,6 +27,8 @@ CASE
 END AS Score
 
 FROM OnlineMoves m
+JOIN OnlineGames g ON m.GameID = g.GameID
+JOIN TimeControls tc ON g.TimeControl = tc.TimeControl
 LEFT JOIN ACPL_Ranges acpl ON 
 	ABS((CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) - (CASE WHEN m.Move_Eval LIKE '%#+%' THEN 300 WHEN m.Move_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.Move_Eval) END)) >= acpl.LBound AND
 	ABS((CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) - (CASE WHEN m.Move_Eval LIKE '%#+%' THEN 300 WHEN m.Move_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.Move_Eval) END)) <= acpl.UBound
@@ -35,6 +38,6 @@ LEFT JOIN EvaluationGroups eg1 ON
 LEFT JOIN EvaluationGroups eg2 ON
 	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) >= eg2.LBound AND
 	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) <= eg2.UBound
-JOIN GamePhases gp ON m.PhaseID = gp.PhaseID
+JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Online' AND gp.TimeControlType = tc.TimeControlType
 JOIN ScoreReference s ON eg2.GroupID = s.BestEvalGroup AND eg1.GroupID = s.PlayedEvalGroup AND acpl.ACPL_Group = s.ACPL_Group
 GO

@@ -24,11 +24,15 @@ DECLARE vfiles CURSOR FOR
 DECLARE @vfilename varchar(100)
 DECLARE @command varchar(1000)
 DECLARE @ctr int
+DECLARE @dte datetime
+DECLARE @tctype varchar(20)
 
 OPEN vfiles
 FETCH NEXT FROM vfiles INTO @vfilename
 WHILE @@FETCH_STATUS = 0
 BEGIN
+	SET @dte = GETDATE()
+
 	TRUNCATE TABLE tempAnalysisContentsPK
 	SET @command = 'BULK INSERT vwtempAnalysisContentsPK FROM ''C:\FileProcessing\Import\' + @vFileName + ''' WITH (ROWTERMINATOR = ''\n'')'
 	EXECUTE (@command)
@@ -155,6 +159,24 @@ BEGIN
 	)
 	WHERE Move_Rank IS NULL
 
+	--recalcuate phase weights
+	CREATE TABLE #temp (TimeControlType varchar(20))
+	INSERT INTO #temp
+	SELECT DISTINCT
+	tc.TimeControlType
+	FROM LichessGames g
+	JOIN TimeControls tc ON g.TimeControl = tc.TimeControl
+	WHERE g.DateAdded >= @dte
+
+	SET @tctype = (SELECT TOP 1 TimeControlType FROM #temp)
+	WHILE @tctype IS NOT NULL
+	BEGIN
+		EXEC UpdatePhaseWeights @Source = 'Lichess', @TimeControlType = @tctype
+		DELETE FROM #temp WHERE TimeControlType = @tctype
+		SET @tctype = (SELECT TOP 1 TimeControlType FROM #temp)
+	END
+
+	DROP TABLE #temp
 
 	SET @command = 'MOVE "C:\FileProcessing\Import\' + @vFileName + '" "' + 'C:\FileProcessing\Import\Archive\' + @vFileName + '"'
     EXEC master..xp_cmdshell @command
