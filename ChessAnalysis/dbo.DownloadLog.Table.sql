@@ -17,15 +17,15 @@ CREATE TABLE [dbo].[DownloadLog](
 	[StartDate] [date] NULL,
 	[EndDate] [date] NULL,
 	[OutPath] [varchar](75) NULL,
- CONSTRAINT [IDX_DLL_DownloadID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_DLL_DownloadID] PRIMARY KEY CLUSTERED 
 (
 	[DownloadID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[DownloadLog] ADD  DEFAULT (getdate()) FOR [DownloadDate]
+ALTER TABLE [dbo].[DownloadLog] ADD  CONSTRAINT [DF_DL_DownloadDate]  DEFAULT (getdate()) FOR [DownloadDate]
 GO
-ALTER TABLE [dbo].[DownloadLog] ADD  DEFAULT ('Incomplete') FOR [DownloadStatus]
+ALTER TABLE [dbo].[DownloadLog] ADD  CONSTRAINT [DF_DL_DownloadStatus]  DEFAULT ('Incomplete') FOR [DownloadStatus]
 GO
-ALTER TABLE [dbo].[DownloadLog] ADD  DEFAULT ((0)) FOR [DownloadGames]
+ALTER TABLE [dbo].[DownloadLog] ADD  CONSTRAINT [DF_DL_DownloadGames]  DEFAULT ((0)) FOR [DownloadGames]
 GO

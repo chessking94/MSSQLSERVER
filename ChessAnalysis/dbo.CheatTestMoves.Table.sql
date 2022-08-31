@@ -99,7 +99,7 @@ CREATE TABLE [dbo].[CheatTestMoves](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[CheatTestMoves] ADD  DEFAULT (getdate()) FOR [DateAdded]
+ALTER TABLE [dbo].[CheatTestMoves] ADD  CONSTRAINT [DF_CTM_DateAdded]  DEFAULT (getdate()) FOR [DateAdded]
 GO
 ALTER TABLE [dbo].[CheatTestMoves]  WITH CHECK ADD  CONSTRAINT [FK_CTG_GameID] FOREIGN KEY([GameID])
 REFERENCES [dbo].[CheatTestGames] ([GameID])

@@ -5,6 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[StatisticsSummary](
+	[Source] [varchar](10) NOT NULL,
 	[Aggregation] [varchar](10) NOT NULL,
 	[Field] [varchar](5) NOT NULL,
 	[Rating] [smallint] NOT NULL,
@@ -22,6 +23,7 @@ CREATE TABLE [dbo].[StatisticsSummary](
 	[UpdateDate] [datetime] NULL,
  CONSTRAINT [PK_SS] PRIMARY KEY CLUSTERED 
 (
+	[Source] ASC,
 	[Aggregation] ASC,
 	[Field] ASC,
 	[Rating] ASC,
@@ -31,5 +33,5 @@ CREATE TABLE [dbo].[StatisticsSummary](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[StatisticsSummary] ADD  DEFAULT (getdate()) FOR [UpdateDate]
+ALTER TABLE [dbo].[StatisticsSummary] ADD  CONSTRAINT [DF_SS_UpdateDate]  DEFAULT (getdate()) FOR [UpdateDate]
 GO
