@@ -18,6 +18,12 @@ g.TimeControl
 FROM LichessGames g
 LEFT JOIN TimeControls tc ON g.TimeControl = tc.TimeControl
 WHERE tc.TimeControl IS NULL
+UNION
+SELECT DISTINCT
+g.TimeControl
+FROM OnlineGames g
+LEFT JOIN TimeControls tc ON g.TimeControl = tc.TimeControl
+WHERE tc.TimeControl IS NULL
 
 SET @new_tc = (SELECT TOP 1 TimeControl FROM #t)
 WHILE @new_tc IS NOT NULL
@@ -25,9 +31,9 @@ BEGIN
 	INSERT INTO TimeControls (TimeControl) VALUES (@new_tc)
 
 	UPDATE tc
-	SET tc.TimeControlType = ISNULL(tcl.TimeControlType, 'Correspondence'), tc.CorrFlag = (CASE WHEN tcl.TimeControlType IS NULL THEN 1 ELSE 0 END), tc.TimeControlRank = ISNULL(tcl.TimeControlRank, 5)
+	SET tc.TimeControlType = ISNULL(typ.TimeControlType, 'Correspondence')
 	FROM TimeControls tc
-	LEFT JOIN TimeControlLimits tcl ON (tc.Seconds + tc.Increment) >= tcl.MinSeconds AND (tc.Seconds + tc.Increment) <= tcl.MaxSeconds
+	LEFT JOIN TimeControlTypes typ ON (tc.Seconds + tc.Increment) >= typ.MinSeconds AND (tc.Seconds + tc.Increment) <= typ.MaxSeconds
 	WHERE tc.TimeControl = @new_tc
 
 	DELETE FROM #t WHERE TimeControl = @new_tc
