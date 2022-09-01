@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [dbo].[vwLichessGameSummary]
 
 AS
@@ -13,6 +14,7 @@ g.GameID,
 m.Color,
 CASE WHEN m.Color = 'White' THEN g.White ELSE g.Black END AS Name,
 r.LBound AS RatingGroup,
+tc.TimeControlType,
 COUNT(m.MoveID) AS MoveCount,
 AVG(CONVERT(float, m.CP_Loss)) AS ACPL,
 ISNULL(STDEV(CONVERT(float, m.CP_Loss)), 0) AS SDCPL,
@@ -43,5 +45,6 @@ GROUP BY
 g.GameID,
 m.Color,
 CASE WHEN m.Color = 'White' THEN g.White ELSE g.Black END,
-r.LBound
+r.LBound,
+tc.TimeControlType
 GO

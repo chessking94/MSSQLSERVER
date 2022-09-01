@@ -4,15 +4,14 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-CREATE   VIEW [dbo].[vwControlGameSummary]
+CREATE VIEW [dbo].[vwControlGameSummary]
 
 AS
 
 SELECT
 g.GameID,
 m.Color,
-g.CorrFlag,
+CASE WHEN g.CorrFlag = 1 THEN 'Correspondence' ELSE 'Classical' END AS TimeControlType,
 CASE WHEN m.Color = 'White' THEN g.WhiteLast ELSE g.BlackLast END AS LastName,
 CASE WHEN m.Color = 'White' THEN g.WhiteFirst ELSE g.BlackFirst END AS FirstName,
 r.LBound AS RatingGroup,
@@ -30,7 +29,7 @@ ISNULL(STDEV(CONVERT(float, m.CP_Loss)), 0) AS SDCPL,
 FROM ControlMoves m
 JOIN ControlGames g ON m.GameID = g.GameID
 JOIN vwControlMoveScores v ON m.MoveID = v.MoveID
-JOIN GamePhases gp ON v.PhaseID = gp.PhaseID
+JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Control' AND gp.TimeControlType = (CASE WHEN g.CorrFlag = 1 THEN 'Correspondence' ELSE 'Classical' END)
 JOIN ScoreReference s ON v.BestEvalGroup = s.BestEvalGroup AND v.PlayedEvalGroup = s.PlayedEvalGroup AND v.ACPL_Group = s.ACPL_Group
 JOIN Rating_Bins r ON (CASE WHEN m.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) >= r.LBound AND (CASE WHEN m.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) <= r.UBound
 
@@ -45,7 +44,7 @@ AND ABS(CONVERT(float, m.Move_Eval)) < CAST((SELECT SettingValue FROM DynamicSet
 GROUP BY
 g.GameID,
 m.Color,
-g.CorrFlag,
+CASE WHEN g.CorrFlag = 1 THEN 'Correspondence' ELSE 'Classical' END,
 CASE WHEN m.Color = 'White' THEN g.WhiteLast ELSE g.BlackLast END,
 CASE WHEN m.Color = 'White' THEN g.WhiteFirst ELSE g.BlackFirst END,
 r.LBound,

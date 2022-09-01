@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[StatisticsSummary](
 	[Aggregation] [varchar](10) NOT NULL,
 	[Field] [varchar](5) NOT NULL,
 	[Rating] [smallint] NOT NULL,
-	[CorrFlag] [tinyint] NOT NULL,
+	[TimeControlType] [varchar](20) NOT NULL,
 	[Color] [varchar](5) NOT NULL,
 	[EvalGroup] [tinyint] NOT NULL,
 	[Count] [int] NULL,
@@ -18,8 +18,8 @@ CREATE TABLE [dbo].[StatisticsSummary](
 	[LowerPcnt] [decimal](17, 15) NULL,
 	[LowerQuartile] [decimal](17, 15) NULL,
 	[Median] [decimal](17, 15) NULL,
-	[UpperQuartile] [decimal](17, 15) NULL,
-	[UpperPcnt] [decimal](17, 15) NULL,
+	[UpperQuartile] [decimal](18, 15) NULL,
+	[UpperPcnt] [decimal](18, 15) NULL,
 	[UpdateDate] [datetime] NULL,
  CONSTRAINT [PK_SS] PRIMARY KEY CLUSTERED 
 (
@@ -27,7 +27,7 @@ CREATE TABLE [dbo].[StatisticsSummary](
 	[Aggregation] ASC,
 	[Field] ASC,
 	[Rating] ASC,
-	[CorrFlag] ASC,
+	[TimeControlType] ASC,
 	[Color] ASC,
 	[EvalGroup] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

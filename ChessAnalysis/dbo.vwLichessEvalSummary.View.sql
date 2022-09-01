@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [dbo].[vwLichessEvalSummary]
 
 AS
@@ -13,6 +14,7 @@ m.MoveID,
 e.GroupID,
 m.Color,
 r.LBound AS RatingGroup,
+tc.TimeControlType,
 CONVERT(float, m.CP_Loss) AS ACPL,
 CASE WHEN m.Move_Rank <= 1 THEN 1 ELSE 0 END AS T1,
 CASE WHEN m.Move_Rank <= 2 THEN 1 ELSE 0 END AS T2,
