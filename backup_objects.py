@@ -1,32 +1,33 @@
 import argparse
 import os
 
+
 def main():
     def_path = os.path.abspath(os.path.dirname(__file__))
     vrs_num = '1.1'
     parser = argparse.ArgumentParser(
-        description = 'Local MS SQL Server Object Backup',
-        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
-        usage = argparse.SUPPRESS
+        description='Local MS SQL Server Object Backup',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        usage=argparse.SUPPRESS
     )
     parser.add_argument(
         '-v', '--version',
-        action = 'version',
-        version = '%(prog)s ' + vrs_num
+        action='version',
+        version='%(prog)s ' + vrs_num
     )
     parser.add_argument(
         '-s', '--server',
-        default = 'HUNT-PC1',
-        choices = ['HUNT-PC1'],
-        help = 'Server name'
+        default='HUNT-PC1',
+        choices=['HUNT-PC1'],
+        help='Server name'
     )
     parser.add_argument(
         '-d', '--database',
-        default = 'ChessAnalysis',
-        choices = ['ChessAnalysis', 'MLB', 'NFL'],
-        help = 'Database to script'
+        default='ChessAnalysis',
+        choices=['ChessAnalysis', 'MLB', 'NFL'],
+        help='Database to script'
     )
-    
+
     args = parser.parse_args()
     config = vars(args)
     server = config['server']
