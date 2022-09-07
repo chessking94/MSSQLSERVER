@@ -1,10 +1,19 @@
 import argparse
+import json
 import os
+
+
+def get_config(filepath, key):
+    filename = os.path.join(filepath, 'config.json')
+    with open(filename, 'r') as t:
+        key_data = json.load(t)
+    val = key_data.get(key)
+    return val
 
 
 def main():
     def_path = os.path.abspath(os.path.dirname(__file__))
-    vrs_num = '1.1'
+    vrs_num = '1.2'
     parser = argparse.ArgumentParser(
         description='Local MS SQL Server Object Backup',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -17,14 +26,14 @@ def main():
     )
     parser.add_argument(
         '-s', '--server',
-        default='HUNT-PC1',
-        choices=['HUNT-PC1'],
+        default=get_config(def_path, 'serverList')[0],
+        choices=get_config(def_path, 'serverList'),
         help='Server name'
     )
     parser.add_argument(
         '-d', '--database',
-        default='ChessAnalysis',
-        choices=['ChessAnalysis', 'MLB', 'NFL'],
+        default=get_config(def_path, 'databaseList')[0],
+        choices=get_config(def_path, 'databaseList'),
         help='Database to script'
     )
 
