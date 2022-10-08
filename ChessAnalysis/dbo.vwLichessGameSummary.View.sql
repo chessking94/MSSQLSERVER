@@ -12,9 +12,9 @@ AS
 SELECT
 g.GameID,
 m.Color,
+tc.TimeControlType,
 CASE WHEN m.Color = 'White' THEN g.White ELSE g.Black END AS Name,
 r.LBound AS RatingGroup,
-tc.TimeControlType,
 COUNT(m.MoveID) AS MoveCount,
 AVG(CONVERT(float, m.CP_Loss)) AS ACPL,
 ISNULL(STDEV(CONVERT(float, m.CP_Loss)), 0) AS SDCPL,
@@ -23,7 +23,8 @@ ISNULL(STDEV(CONVERT(float, m.CP_Loss)), 0) AS SDCPL,
 1.00*SUM(CASE WHEN m.Move_Rank <= 3 THEN 1 ELSE 0 END)/COUNT(m.MoveID) AS T3,
 1.00*SUM(CASE WHEN m.Move_Rank <= 4 THEN 1 ELSE 0 END)/COUNT(m.MoveID) AS T4,
 1.00*SUM(CASE WHEN m.Move_Rank <= 5 THEN 1 ELSE 0 END)/COUNT(m.MoveID) AS T5,
-100*SUM(v.Score)/SUM(gp.ScoreWeight*s.Points) AS Score
+--100*SUM(v.Score)/SUM(gp.ScoreWeight*s.Points) AS Score
+CASE WHEN ISNULL(100*SUM(v.Score)/NULLIF(SUM(v.MaxScore), 0), 100) > 100 THEN 100 ELSE ISNULL(100*SUM(v.Score)/NULLIF(SUM(v.MaxScore), 0), 100) END AS Score
 
 FROM LichessMoves m
 JOIN LichessGames g ON m.GameID = g.GameID

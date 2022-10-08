@@ -13,8 +13,8 @@ SELECT
 m.MoveID,
 e.GroupID,
 m.Color,
-r.LBound AS RatingGroup,
 tc.TimeControlType,
+r.LBound AS RatingGroup,
 CONVERT(float, m.CP_Loss) AS ACPL,
 CASE WHEN m.Move_Rank <= 1 THEN 1 ELSE 0 END AS T1,
 CASE WHEN m.Move_Rank <= 2 THEN 1 ELSE 0 END AS T2,
@@ -22,7 +22,8 @@ CASE WHEN m.Move_Rank <= 3 THEN 1 ELSE 0 END AS T3,
 CASE WHEN m.Move_Rank <= 4 THEN 1 ELSE 0 END AS T4,
 CASE WHEN m.Move_Rank <= 5 THEN 1 ELSE 0 END AS T5,
 v.Score AS PointsGained,
-gp.ScoreWeight*s.Points AS TotalPoints
+--gp.ScoreWeight*s.Points AS TotalPoints
+v.MaxScore AS TotalPoints
 
 FROM LichessMoves m
 JOIN LichessGames g ON m.GameID = g.GameID

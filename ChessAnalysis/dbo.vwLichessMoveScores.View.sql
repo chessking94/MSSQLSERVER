@@ -23,7 +23,11 @@ CASE
 	WHEN (m.IsTablebase = 1 AND m.Move = m.T1) THEN 1 * gp.ScoreWeight * s.Points
 	WHEN (m.IsTablebase = 1 AND m.Move <> m.T1 AND LEFT(m.T1_Eval, 2) = LEFT(m.Move_Eval, 2)) THEN 0.9 * gp.ScoreWeight * s.Points
 	ELSE s.Score * gp.ScoreWeight * s.Points
-END AS Score
+END AS Score1,
+CASE WHEN m.IsTheory + m.IsTablebase = 0 THEN ed2.PDF ELSE 0 END AS MaxScore,
+--POWER((CASE WHEN m.Color = 'Black' THEN 1 - ed2.CDF ELSE ed2.CDF END) - (CASE WHEN m.Color = 'Black' THEN 1 - ed1.CDF ELSE ed1.CDF END) - 1, 4) AS LossWeight,
+CAST((CASE WHEN m.IsTheory + m.IsTablebase = 0 THEN ed2.PDF ELSE 0 END) * CAST(POWER((CASE WHEN m.Color = 'Black' THEN 1 - ed2.CDF ELSE ed2.CDF END) - (CASE WHEN m.Color = 'Black' THEN 1 - ed1.CDF ELSE ed1.CDF END) - 1, 4) AS decimal(10,9)) AS decimal(10,9)) AS Score
+--double-cast in Score_2 is required to maintain the same precision
 
 FROM LichessMoves m
 JOIN LichessGames g ON m.GameID = g.GameID
@@ -39,4 +43,12 @@ LEFT JOIN EvaluationGroups eg2 ON
 	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 300 WHEN m.T1_Eval LIKE '%#-%' THEN -300 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) <= eg2.UBound
 JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Lichess' AND gp.TimeControlType = tc.TimeControlType
 JOIN ScoreReference s ON eg2.GroupID = s.BestEvalGroup AND eg1.GroupID = s.PlayedEvalGroup AND acpl.ACPL_Group = s.ACPL_Group
+JOIN EvalDistributions ed1 ON
+	(CASE WHEN m.Move_Eval LIKE '%#+%' THEN 100 WHEN m.Move_Eval LIKE '%#-%' THEN -100 ELSE CONVERT(decimal(5,2), m.Move_Eval) END) = ed1.Eval
+	AND ed1.Source = 'Lichess'
+	AND ed1.TimeControlType = tc.TimeControlType
+JOIN EvalDistributions ed2 ON
+	(CASE WHEN m.T1_Eval LIKE '%#+%' THEN 100 WHEN m.T1_Eval LIKE '%#-%' THEN -100 ELSE CONVERT(decimal(5,2), m.T1_Eval) END) = ed2.Eval
+	AND ed2.Source = 'Lichess'
+	AND ed2.TimeControlType = tc.TimeControlType
 GO
