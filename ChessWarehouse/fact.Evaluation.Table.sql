@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [fact].[Evaluation](
 	[SourceID] [tinyint] NOT NULL,
-	[EvaluationGroupID] [smallint] NOT NULL,
+	[EvaluationGroupID] [tinyint] NOT NULL,
 	[TimeControlID] [tinyint] NOT NULL,
 	[RatingID] [smallint] NOT NULL,
 	[CalculationDate] [datetime] NOT NULL,
@@ -50,4 +50,9 @@ CREATE TABLE [fact].[Evaluation](
 ) ON [PRIMARY]
 GO
 ALTER TABLE [fact].[Evaluation] ADD  CONSTRAINT [DF_FEvaluation_CalculationDate]  DEFAULT (getdate()) FOR [CalculationDate]
+GO
+ALTER TABLE [fact].[Evaluation]  WITH CHECK ADD  CONSTRAINT [FK_Evaluation_EvaluationGroupID] FOREIGN KEY([EvaluationGroupID])
+REFERENCES [dim].[EvaluationGroups] ([EvaluationGroupID])
+GO
+ALTER TABLE [fact].[Evaluation] CHECK CONSTRAINT [FK_Evaluation_EvaluationGroupID]
 GO
