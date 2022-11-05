@@ -1,0 +1,27 @@
+﻿USE [ChessWarehouse]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [doc].[RecordLayouts](
+	[RecordKey] [varchar](3) NOT NULL,
+	[FieldPosition] [smallint] NOT NULL,
+	[FieldName] [varchar](26) NOT NULL,
+ CONSTRAINT [PK_RecordLayouts] PRIMARY KEY CLUSTERED 
+(
+	[RecordKey] ASC,
+	[FieldPosition] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [UC_RecordLayouts] UNIQUE NONCLUSTERED 
+(
+	[RecordKey] ASC,
+	[FieldPosition] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [doc].[RecordLayouts]  WITH CHECK ADD  CONSTRAINT [FK_RecordLayouts_RecordKey] FOREIGN KEY([RecordKey])
+REFERENCES [doc].[Records] ([RecordKey])
+GO
+ALTER TABLE [doc].[RecordLayouts] CHECK CONSTRAINT [FK_RecordLayouts_RecordKey]
+GO
