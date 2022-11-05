@@ -96,7 +96,7 @@ r.RatingID
 UPDATE f
 SET f.T1_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE (f.T1 - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -107,7 +107,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.T2_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE (f.T2 - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -118,7 +118,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.T3_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE (f.T3 - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -129,7 +129,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.T4_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE (f.T4 - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -140,7 +140,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.T5_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE (f.T5 - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -151,7 +151,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.ACPL_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE -1*(f.ACPL - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -162,7 +162,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.SDCPL_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE -1*(f.SDCPL - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -173,7 +173,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.Score_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE (f.Score - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -184,7 +184,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.ScACPL_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE -1*(f.ScACPL - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
@@ -195,7 +195,7 @@ JOIN fact.StatisticsSummary ss ON
 UPDATE f
 SET f.ScSDCPL_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE -1*(f.ScSDCPL - ss.Average)/ss.StandardDeviation END
 FROM fact.Event f
-JOIN fact.StatisticsSummary ss ON
+JOIN stat.StatisticsSummary ss ON
 	f.SourceID = ss.SourceID AND
 	f.RatingID = ss.RatingID AND
 	f.TimeControlID = ss.TimeControlID AND
