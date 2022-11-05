@@ -5,7 +5,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
 CREATE VIEW [dbo].[vwControlEvalSummary]
 
 AS
@@ -17,6 +16,7 @@ m.Color,
 CASE WHEN g.CorrFlag = 1 THEN 'Correspondence' ELSE 'Classical' END AS TimeControlType,
 r.LBound AS RatingGroup,
 CONVERT(float, m.CP_Loss) AS ACPL,
+sc.Scaled_CPLoss AS Scaled_ACPL,
 CASE WHEN m.Move_Rank <= 1 THEN 1 ELSE 0 END AS T1,
 CASE WHEN m.Move_Rank <= 2 THEN 1 ELSE 0 END AS T2,
 CASE WHEN m.Move_Rank <= 3 THEN 1 ELSE 0 END AS T3,
@@ -32,6 +32,7 @@ JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Control' AND
 JOIN ScoreReference s ON v.BestEvalGroup = s.BestEvalGroup AND v.PlayedEvalGroup = s.PlayedEvalGroup AND v.ACPL_Group = s.ACPL_Group
 JOIN EvaluationGroups e ON m.T1_Eval >= e.LBound AND m.T1_Eval <= e.UBound
 JOIN Rating_Bins r ON (CASE WHEN m.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) >= r.LBound AND (CASE WHEN m.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) <= r.UBound
+JOIN vwControlScaledCPLoss sc ON m.MoveID = sc.MoveID
 
 WHERE m.IsTheory = 0
 AND m.IsTablebase = 0

@@ -3,9 +3,9 @@ GO
 CREATE DATABASE [ChessAnalysis]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'ChessAnalysis', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ChessAnalysis.mdf' , SIZE = 12284288KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'ChessAnalysis', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ChessAnalysis.mdf' , SIZE = 11792576KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'ChessAnalysis_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ChessAnalysis_log.ldf' , SIZE = 1843200KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'ChessAnalysis_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ChessAnalysis_log.ldf' , SIZE = 401408KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin

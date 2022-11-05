@@ -5,6 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 CREATE VIEW [dbo].[vwLichessGameSummary]
 
 AS
@@ -18,6 +19,8 @@ r.LBound AS RatingGroup,
 COUNT(m.MoveID) AS MoveCount,
 AVG(CONVERT(float, m.CP_Loss)) AS ACPL,
 ISNULL(STDEV(CONVERT(float, m.CP_Loss)), 0) AS SDCPL,
+AVG(sc.Scaled_CPLoss) AS Scaled_ACPL,
+ISNULL(STDEV(sc.Scaled_CPLoss), 0) AS Scaled_SDCPL,
 1.00*SUM(CASE WHEN m.Move_Rank <= 1 THEN 1 ELSE 0 END)/COUNT(m.MoveID) AS T1,
 1.00*SUM(CASE WHEN m.Move_Rank <= 2 THEN 1 ELSE 0 END)/COUNT(m.MoveID) AS T2,
 1.00*SUM(CASE WHEN m.Move_Rank <= 3 THEN 1 ELSE 0 END)/COUNT(m.MoveID) AS T3,
@@ -33,6 +36,7 @@ JOIN vwLichessMoveScores v ON m.MoveID = v.MoveID
 JOIN GamePhaseWeights gp ON m.PhaseID = gp.PhaseID AND gp.Source = 'Lichess' AND gp.TimeControlType = tc.TimeControlType
 JOIN ScoreReference s ON v.BestEvalGroup = s.BestEvalGroup AND v.PlayedEvalGroup = s.PlayedEvalGroup AND v.ACPL_Group = s.ACPL_Group
 JOIN Rating_Bins r ON (CASE WHEN m.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) >= r.LBound AND (CASE WHEN m.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) <= r.UBound
+JOIN vwLichessScaledCPLoss sc ON m.MoveID = sc.MoveID
 
 WHERE m.IsTheory = 0
 AND m.IsTablebase = 0

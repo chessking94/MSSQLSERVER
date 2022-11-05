@@ -11,6 +11,8 @@ AS
 SELECT
 m.MoveID,
 m.GameID,
+m.Color,
+m.FEN,
 CASE m.Color WHEN 'White' THEN g.WhiteElo ELSE g.BlackElo END AS Rating,
 CONCAT(m.FEN, '|', CASE m.Color WHEN 'White' THEN g.WhiteElo ELSE g.BlackElo END) AS Input_String,
 CASE WHEN CAST(m.CP_Loss AS decimal(5,2)) > 2 THEN 2.00 ELSE m.CP_Loss END AS CP_Loss,
@@ -22,5 +24,4 @@ WHERE g.CorrFlag = 0
 AND m.CP_Loss IS NOT NULL
 AND ISNUMERIC(m.T1_Eval) = 1
 AND CAST(m.T1_Eval AS decimal(5,2)) <= 3.5
---AND m.IsTheory = 0
 GO
