@@ -46,7 +46,12 @@ def main():
     if not os.path.isdir(output_path):
         os.mkdir(output_path)
 
-    cmd_text = f'mssql-scripter -S {server} -d {database} --file-per-object --script-create --exclude-headers --display-progress -f {output_path}'
+    cmd_text = f'mssql-scripter -S {server} -d {database}'
+    cmd_text = cmd_text + ' --file-per-object'
+    cmd_text = cmd_text + ' --script-create'
+    cmd_text = cmd_text + ' --exclude-headers'
+    cmd_text = cmd_text + ' --display-progress'
+    cmd_text = cmd_text + f' -f {output_path}'
     if os.getcwd != def_path:
         os.chdir(def_path)
     os.system('cmd /C ' + cmd_text)
