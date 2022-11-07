@@ -13,7 +13,7 @@ CREATE TABLE [stat].[Covariances](
 	[EvaluationGroupID] [tinyint] NOT NULL,
 	[MeasurementID1] [tinyint] NOT NULL,
 	[MeasurementID2] [tinyint] NOT NULL,
-	[Covariance] [decimal](9, 6) NULL,
+	[Covariance] [decimal](18, 10) NULL,
  CONSTRAINT [PK_Covariances] PRIMARY KEY CLUSTERED 
 (
 	[SourceID] ASC,

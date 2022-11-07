@@ -25,6 +25,10 @@ AND m.T1_Eval_POV IS NOT NULL
 AND m.Move_Eval_POV IS NOT NULL
 AND ABS(m.T1_Eval_POV) < dbo.GetSettingValue('Max Eval')
 AND ABS(m.Move_Eval_POV) < dbo.GetSettingValue('Max Eval')
+AND NOT (
+	m.T2_Eval IS NULL OR
+	ABS(CAST(m.T1_Eval AS decimal(5,2)) - (CASE WHEN LEFT(m.T2_Eval, 1) = '#' THEN 100 ELSE CAST(m.T2_Eval AS decimal(5,2)) END)) > dbo.GetSettingValue('Forced Move Threshold')
+)
 
 
 UPDATE m
