@@ -208,4 +208,17 @@ JOIN stat.StatisticsSummary ss ON
 	f.EvaluationGroupID = ss.EvaluationGroupID AND
 	ss.AggregationID = 3 AND
 	ss.MeasurementID = 10
+
+
+--add composite z-score
+/*
+	Methodology: Essentially a weighted average divided by the overall standard deviation
+	Mathematics taken from https://stats.stackexchange.com/questions/348192/combining-z-scores-by-weighted-average-sanity-check-please
+*/
+DECLARE @T1_Weight decimal(5,4) = 0.2
+DECLARE @ScACPL_Weight decimal(5,4) = 0.35
+DECLARE @Score_Weight decimal(5,4) = 0.45
+
+UPDATE fact.Evaluation
+SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
 GO
