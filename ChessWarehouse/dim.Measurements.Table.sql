@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[Measurements](
 	[MeasurementID] [tinyint] IDENTITY(1,1) NOT NULL,
-	[MeasurementName] [varchar](15) NOT NULL,
+	[MeasurementName] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Measurements] PRIMARY KEY CLUSTERED 
 (
 	[MeasurementID] ASC

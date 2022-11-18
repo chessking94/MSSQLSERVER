@@ -8,7 +8,7 @@ CREATE TABLE [dim].[CPLossGroups](
 	[CPLossGroupID] [tinyint] IDENTITY(1,1) NOT NULL,
 	[LBound] [decimal](5, 2) NOT NULL,
 	[UBound] [decimal](5, 2) NOT NULL,
-	[CPLoss_Range] [varchar](11) NULL,
+	[CPLoss_Range] [varchar](11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_CPLossGroups] PRIMARY KEY CLUSTERED 
 (
 	[CPLossGroupID] ASC

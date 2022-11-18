@@ -6,13 +6,13 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[AuditLog](
 	[LogId] [int] IDENTITY(1,1) NOT NULL,
-	[DatabaseName] [varchar](256) NOT NULL,
-	[EventType] [varchar](50) NOT NULL,
-	[ObjectName] [varchar](256) NOT NULL,
-	[ObjectType] [varchar](25) NOT NULL,
-	[SqlCommand] [varchar](max) NOT NULL,
+	[DatabaseName] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[EventType] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ObjectName] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ObjectType] [varchar](25) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[SqlCommand] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[EventDate] [datetime] NOT NULL,
-	[LoginName] [varchar](256) NOT NULL,
+	[LoginName] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_AuditLog] PRIMARY KEY CLUSTERED 
 (
 	[LogId] ASC

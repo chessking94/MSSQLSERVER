@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[Engines](
 	[EngineID] [tinyint] IDENTITY(1,1) NOT NULL,
-	[EngineName] [varchar](20) NOT NULL,
+	[EngineName] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Engines] PRIMARY KEY CLUSTERED 
 (
 	[EngineID] ASC

@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[Phases](
 	[PhaseID] [tinyint] IDENTITY(1,1) NOT NULL,
-	[Phase] [varchar](10) NOT NULL,
+	[Phase] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Phases] PRIMARY KEY CLUSTERED 
 (
 	[PhaseID] ASC

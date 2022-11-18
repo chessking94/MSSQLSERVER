@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[TimeControlDetail](
 	[TimeControlDetailID] [smallint] IDENTITY(1,1) NOT NULL,
-	[TimeControlDetail] [varchar](15) NOT NULL,
+	[TimeControlDetail] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TimeControlID] [tinyint] NOT NULL,
 	[Seconds]  AS (case when charindex('+',[TimeControlDetail])>(0) then CONVERT([smallint],left([TimeControlDetail],charindex('+',[TimeControlDetail])-(1)))  end) PERSISTED,
 	[Increment]  AS (case when charindex('+',[TimeControlDetail])>(0) then CONVERT([smallint],substring([TimeControlDetail],charindex('+',[TimeControlDetail])+(1),len([TimeControlDetail])))  end) PERSISTED,

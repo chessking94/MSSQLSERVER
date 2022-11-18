@@ -7,7 +7,7 @@ GO
 CREATE TABLE [dbo].[FileHistory](
 	[FileID] [int] IDENTITY(1,1) NOT NULL,
 	[FileTypeID] [smallint] NOT NULL,
-	[Filename] [varchar](100) NOT NULL,
+	[Filename] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DateStarted] [datetime] NOT NULL,
 	[DateCompleted] [datetime] NULL,
 	[Records] [int] NULL,

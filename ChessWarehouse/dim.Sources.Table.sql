@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[Sources](
 	[SourceID] [tinyint] IDENTITY(1,1) NOT NULL,
-	[SourceName] [varchar](15) NOT NULL,
+	[SourceName] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Source] PRIMARY KEY CLUSTERED 
 (
 	[SourceID] ASC

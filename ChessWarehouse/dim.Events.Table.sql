@@ -7,7 +7,7 @@ GO
 CREATE TABLE [dim].[Events](
 	[EventID] [int] IDENTITY(1,1) NOT NULL,
 	[SourceID] [tinyint] NOT NULL,
-	[EventName] [varchar](100) NOT NULL,
+	[EventName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Events] PRIMARY KEY CLUSTERED 
 (
 	[EventID] ASC

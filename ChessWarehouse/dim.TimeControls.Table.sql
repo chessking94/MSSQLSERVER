@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[TimeControls](
 	[TimeControlID] [tinyint] IDENTITY(1,1) NOT NULL,
-	[TimeControlName] [varchar](15) NOT NULL,
+	[TimeControlName] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[MinSeconds] [int] NULL,
 	[MaxSeconds] [int] NULL,
  CONSTRAINT [PK_TC] PRIMARY KEY CLUSTERED 

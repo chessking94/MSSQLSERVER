@@ -7,16 +7,16 @@ GO
 CREATE TABLE [dbo].[DownloadLog](
 	[DownloadID] [int] IDENTITY(1,1) NOT NULL,
 	[DownloadDate] [datetime] NOT NULL,
-	[DownloadStatus] [varchar](10) NOT NULL,
+	[DownloadStatus] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DownloadSeconds] [smallint] NULL,
 	[DownloadGames] [int] NOT NULL,
-	[Player] [varchar](50) NULL,
-	[Site] [varchar](9) NULL,
-	[TimeControl] [varchar](14) NULL,
-	[Color] [varchar](5) NULL,
+	[Player] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Site] [varchar](9) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TimeControl] [varchar](14) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Color] [varchar](5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[StartDate] [date] NULL,
 	[EndDate] [date] NULL,
-	[OutPath] [varchar](75) NULL,
+	[OutPath] [varchar](75) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_DownloadLog] PRIMARY KEY CLUSTERED 
 (
 	[DownloadID] ASC

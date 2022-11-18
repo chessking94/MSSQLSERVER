@@ -5,8 +5,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [doc].[Records](
-	[RecordKey] [varchar](3) NOT NULL,
-	[RecordName] [varchar](10) NOT NULL,
+	[RecordKey] [varchar](3) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[RecordName] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Records] PRIMARY KEY CLUSTERED 
 (
 	[RecordKey] ASC

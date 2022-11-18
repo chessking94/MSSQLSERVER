@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[Colors](
 	[ColorID] [tinyint] NOT NULL,
-	[Color] [varchar](5) NOT NULL,
+	[Color] [varchar](5) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Color] PRIMARY KEY CLUSTERED 
 (
 	[ColorID] ASC

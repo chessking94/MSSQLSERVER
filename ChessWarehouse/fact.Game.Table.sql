@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [fact].[Game](
 	[SourceID] [tinyint] NOT NULL,
-	[GameID] [varchar](10) NOT NULL,
+	[GameID] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TimeControlID] [tinyint] NOT NULL,
 	[PlayerID] [int] NOT NULL,
 	[ColorID] [tinyint] NOT NULL,

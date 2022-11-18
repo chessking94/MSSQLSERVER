@@ -9,7 +9,7 @@ CREATE TABLE [lake].[Games](
 	[DateAdded] [datetime] NOT NULL,
 	[SourceID] [tinyint] NOT NULL,
 	[SiteID] [tinyint] NULL,
-	[SiteGameID] [varchar](15) NOT NULL,
+	[SiteGameID] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[WhitePlayerID] [int] NOT NULL,
 	[BlackPlayerID] [int] NOT NULL,
 	[WhiteElo] [smallint] NULL,

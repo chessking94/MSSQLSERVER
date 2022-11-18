@@ -6,8 +6,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[FileTypes](
 	[FileTypeID] [smallint] IDENTITY(1,1) NOT NULL,
-	[FileType] [varchar](100) NOT NULL,
-	[FileExtension] [varchar](10) NOT NULL,
+	[FileType] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[FileExtension] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_FileTypes] PRIMARY KEY CLUSTERED 
 (
 	[FileTypeID] ASC

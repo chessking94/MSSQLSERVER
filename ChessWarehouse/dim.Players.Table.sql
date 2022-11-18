@@ -7,8 +7,8 @@ GO
 CREATE TABLE [dim].[Players](
 	[PlayerID] [int] IDENTITY(1,1) NOT NULL,
 	[SourceID] [tinyint] NOT NULL,
-	[LastName] [varchar](50) NOT NULL,
-	[FirstName] [varchar](30) NULL,
+	[LastName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[FirstName] [varchar](30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SelfFlag] [bit] NOT NULL,
  CONSTRAINT [PK_Players] PRIMARY KEY CLUSTERED 
 (

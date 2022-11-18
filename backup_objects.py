@@ -49,6 +49,7 @@ def main():
     cmd_text = f'mssql-scripter -S {server} -d {database}'
     cmd_text = cmd_text + ' --file-per-object'
     cmd_text = cmd_text + ' --script-create'
+    cmd_text = cmd_text + ' --collation'
     cmd_text = cmd_text + ' --exclude-headers'
     cmd_text = cmd_text + ' --display-progress'
     cmd_text = cmd_text + f' -f {output_path}'

@@ -6,9 +6,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dim].[ECO](
 	[ECOID] [smallint] IDENTITY(1,1) NOT NULL,
-	[ECO_Code] [char](3) NOT NULL,
-	[Opening_Name] [varchar](25) NULL,
-	[Variation_Name] [varchar](25) NULL,
+	[ECO_Code] [char](3) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Opening_Name] [varchar](25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Variation_Name] [varchar](25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ECO] PRIMARY KEY CLUSTERED 
 (
 	[ECOID] ASC

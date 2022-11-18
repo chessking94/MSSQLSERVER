@@ -6,14 +6,14 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[UsernameXRef](
 	[PlayerID] [int] IDENTITY(1,1) NOT NULL,
-	[LastName] [varchar](30) NULL,
-	[FirstName] [varchar](30) NULL,
-	[Username] [varchar](50) NULL,
-	[Source] [varchar](15) NULL,
+	[LastName] [varchar](30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[FirstName] [varchar](30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Username] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Source] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[EEHFlag] [bit] NULL,
 	[DownloadFlag] [bit] NULL,
 	[LastActiveOnline] [datetime] NULL,
-	[UserStatus] [varchar](10) NULL,
+	[UserStatus] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[BulletRating] [int] NULL,
 	[BlitzRating] [int] NULL,
 	[RapidRating] [int] NULL,
@@ -22,7 +22,7 @@ CREATE TABLE [dbo].[UsernameXRef](
 	[BlitzGames] [int] NULL,
 	[RapidGames] [int] NULL,
 	[DailyGames] [int] NULL,
-	[Note] [varchar](50) NULL,
+	[Note] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TotalGames]  AS (((isnull([BulletGames],(0))+isnull([BlitzGames],(0)))+isnull([RapidGames],(0)))+isnull([DailyGames],(0))),
  CONSTRAINT [PK_UsernameXRef] PRIMARY KEY CLUSTERED 
 (
