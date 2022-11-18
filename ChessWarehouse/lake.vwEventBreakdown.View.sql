@@ -4,6 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE VIEW [lake].[vwEventBreakdown]
 
 AS
@@ -29,9 +30,9 @@ SELECT
 GameID,
 'Black' AS Color,
 BlackPlayerID AS PlayerID,
-WhiteElo AS Elo,
+BlackElo AS Elo,
 WhitePlayerID AS OppPlayerID,
-BlackElo AS OppElo,
+WhiteElo AS OppElo,
 ECOID,
 GameDate,
 EventID,
