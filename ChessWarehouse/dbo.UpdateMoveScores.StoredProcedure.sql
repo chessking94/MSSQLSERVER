@@ -9,50 +9,6 @@ CREATE PROCEDURE [dbo].[UpdateMoveScores] (@fileid int)
 
 AS
 
-UPDATE m
-SET m.MoveScored = 1
-FROM lake.Moves m
-JOIN lake.Games g ON
-	m.GameID = g.GameID
-LEFT JOIN FileHistory fh ON
-	g.FileID = fh.FileID
-
-WHERE fh.FileID = @fileid
-AND m.IsTheory = 0
-AND m.IsTablebase = 0
-AND m.CP_Loss IS NOT NULL
-AND m.T1_Eval_POV IS NOT NULL
-AND m.Move_Eval_POV IS NOT NULL
-AND ABS(m.T1_Eval_POV) < dbo.GetSettingValue('Max Eval')
-AND ABS(m.Move_Eval_POV) < dbo.GetSettingValue('Max Eval')
-AND NOT (
-	m.T2_Eval IS NULL OR
-	ABS(CAST(m.T1_Eval AS decimal(5,2)) - (CASE WHEN LEFT(m.T2_Eval, 1) = '#' THEN 100 ELSE CAST(m.T2_Eval AS decimal(5,2)) END)) > dbo.GetSettingValue('Forced Move Threshold')
-)
-
-
-UPDATE m
-SET m.Score = CAST(t1.PDF * CAST(POWER(t1.CDF - mp.CDF - 1, 4) AS decimal(10,9)) AS decimal(10,9)),
-	m.MaxScore = t1.PDF
-
-FROM lake.Moves m
-JOIN lake.Games g ON m.GameID = g.GameID
-JOIN dim.TimeControlDetail td ON g.TimeControlDetailID = td.TimeControlDetailID
-LEFT JOIN stat.EvalDistributions t1 ON
-	g.SourceID = t1.SourceID AND
-	td.TimeControlID = t1.TimeControlID AND
-	m.T1_Eval_POV = t1.Evaluation
-LEFT JOIN stat.EvalDistributions mp ON
-	g.SourceID = mp.SourceID AND
-	td.TimeControlID = mp.TimeControlID AND
-	m.Move_Eval_POV = mp.Evaluation
-LEFT JOIN FileHistory fh ON
-	g.FileID = fh.FileID
-
-WHERE fh.FileID = @fileid
-AND m.MoveScored = 1
-
-
 ;WITH cte AS (
 	SELECT
 	m.GameID,
@@ -96,5 +52,42 @@ JOIN cte ON
 	m.ColorID = cte.ColorID
 
 WHERE s.ID = 3
+AND fh.FileID = @fileid
+
+
+UPDATE m
+SET m.MoveScored = 1
+
+FROM lake.Moves m
+JOIN dim.Traces t ON
+	m.TraceKey = t.TraceKey
+JOIN lake.Games g ON
+	m.GameID = g.GameID
+LEFT JOIN FileHistory fh ON
+	g.FileID = fh.FileID
+
+WHERE t.Scored = 1
+AND fh.FileID = @fileid
+
+
+UPDATE m
+SET m.Score = CAST(t1.PDF * CAST(POWER(t1.CDF - mp.CDF - 1, 4) AS decimal(10,9)) AS decimal(10,9)),
+	m.MaxScore = t1.PDF
+
+FROM lake.Moves m
+JOIN lake.Games g ON m.GameID = g.GameID
+JOIN dim.TimeControlDetail td ON g.TimeControlDetailID = td.TimeControlDetailID
+LEFT JOIN stat.EvalDistributions t1 ON
+	g.SourceID = t1.SourceID AND
+	td.TimeControlID = t1.TimeControlID AND
+	m.T1_Eval_POV = t1.Evaluation
+LEFT JOIN stat.EvalDistributions mp ON
+	g.SourceID = mp.SourceID AND
+	td.TimeControlID = mp.TimeControlID AND
+	m.Move_Eval_POV = mp.Evaluation
+LEFT JOIN FileHistory fh ON
+	g.FileID = fh.FileID
+
+WHERE m.MoveScored = 1
 AND fh.FileID = @fileid
 GO
