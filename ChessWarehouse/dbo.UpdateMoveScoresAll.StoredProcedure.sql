@@ -9,7 +9,7 @@ CREATE PROCEDURE [dbo].[UpdateMoveScoresAll]
 AS
 
 UPDATE m
-SET m.Score = CAST(t1.PDF * CAST(POWER(t1.CDF - mp.CDF - 1, 4) AS decimal(10,9)) AS decimal(10,9)),
+SET m.Score = CAST(t1.PDF * CAST(POWER(t1.CDF - ISNULL(mp.CDF, 0) - 1, 4) AS decimal(10,9)) AS decimal(10,9)),
 	m.MaxScore = t1.PDF
 
 FROM lake.Moves m
