@@ -25,13 +25,15 @@ IF @aggid IS NOT NULL AND @mid IS NOT NULL
 BEGIN
 	SET @basesql = N'
 UPDATE f
-SET f.' + @MeasurementName + N'_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE (f.' + @MeasurementName + N' - ss.Average)/ss.StandardDeviation END
+SET f.' + @MeasurementName + N'_Z = CASE WHEN ss.Average IS NULL THEN NULL WHEN ss.StandardDeviation = 0 THEN 0 ELSE m.ZScore_Multiplier*(f.' + @MeasurementName + N' - ss.Average)/ss.StandardDeviation END
 FROM fact.' + @AggregationName + N' f
+JOIN dim.Measurements m ON
+	m.MeasurementID = ' + CONVERT(nvarchar(5), @mid) + N'
 JOIN stat.StatisticsSummary ss ON
 	f.TimeControlID = ss.TimeControlID AND
 	f.RatingID = ss.RatingID AND
-	ss.AggregationID = ' + CONVERT(nvarchar(5), @aggid) + N' AND
-	ss.MeasurementID = ' + CONVERT(nvarchar(5), @mid) + N' AND'
+	ss.MeasurementID = m.MeasurementID AND
+	ss.AggregationID = ' + CONVERT(nvarchar(5), @aggid) + N' AND'
 
 	IF @AggregationName = 'Game'
 	BEGIN

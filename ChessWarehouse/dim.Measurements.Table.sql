@@ -7,6 +7,7 @@ GO
 CREATE TABLE [dim].[Measurements](
 	[MeasurementID] [tinyint] IDENTITY(1,1) NOT NULL,
 	[MeasurementName] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ZScore_Multiplier] [smallint] NULL,
  CONSTRAINT [PK_Measurements] PRIMARY KEY CLUSTERED 
 (
 	[MeasurementID] ASC
