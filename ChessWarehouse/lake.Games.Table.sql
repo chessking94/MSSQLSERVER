@@ -21,7 +21,7 @@ CREATE TABLE [lake].[Games](
 	[EventID] [int] NOT NULL,
 	[RoundNum] [tinyint] NULL,
 	[Result] [decimal](2, 1) NOT NULL,
-	[FileID] [int] NULL,
+	[FileID] [int] NOT NULL,
  CONSTRAINT [PK_LGames] PRIMARY KEY CLUSTERED 
 (
 	[GameID] ASC

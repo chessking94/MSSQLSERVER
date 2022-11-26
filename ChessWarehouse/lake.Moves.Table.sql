@@ -91,6 +91,8 @@ CREATE TABLE [lake].[Moves](
 	[ScACPL]  AS (case when [CP_Loss] IS NULL OR left([T1_Eval],(1))='#' then NULL else CONVERT([decimal](5,2),[CP_Loss])/((1)+abs(CONVERT([decimal](5,2),[T1_Eval]))) end) PERSISTED,
 	[MoveScored] [bit] NOT NULL,
 	[TraceKey] [char](1) COLLATE Latin1_General_CS_AS NULL,
+	[ScoreEqual] [decimal](10, 9) NULL,
+	[MaxScoreEqual] [decimal](10, 9) NULL,
  CONSTRAINT [PK_LMoves] PRIMARY KEY CLUSTERED 
 (
 	[GameID] ASC,

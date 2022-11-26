@@ -34,7 +34,8 @@ INSERT INTO fact.Game (
 	T3,
 	T4,
 	T5,
-	Score
+	Score,
+	ScoreEqual
 )
 
 SELECT
@@ -63,7 +64,8 @@ CASE WHEN (SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END)) = 0 THEN NULL ELSE
 1.00*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE (CASE WHEN m.Move_Rank <= 3 THEN 1 ELSE 0 END) END)/SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END) AS T3,
 1.00*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE (CASE WHEN m.Move_Rank <= 4 THEN 1 ELSE 0 END) END)/SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END) AS T4,
 1.00*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE (CASE WHEN m.Move_Rank <= 5 THEN 1 ELSE 0 END) END)/SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END) AS T5,
-100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.Score END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.MaxScore END) AS Score
+100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.Score END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.MaxScore END) AS Score,
+100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.ScoreEqual END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.MaxScoreEqual END) AS ScoreEqual
 
 FROM lake.Moves m
 JOIN lake.Games g ON

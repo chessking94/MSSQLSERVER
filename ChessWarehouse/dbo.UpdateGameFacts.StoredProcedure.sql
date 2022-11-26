@@ -11,7 +11,7 @@ AS
 --add z-scores
 DECLARE @mid tinyint = 1
 DECLARE @mname varchar(15)
-WHILE @mid <= 10
+WHILE @mid <= 11
 BEGIN
 	SELECT @mname = MeasurementName FROM dim.Measurements WHERE MeasurementID = @mid
 	EXEC UpdateZScores @AggregationName = 'Game', @MeasurementName = @mname

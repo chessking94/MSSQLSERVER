@@ -6,6 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE VIEW [lake].[vwEvaluationSummary]
 
 AS
@@ -24,7 +25,9 @@ CASE WHEN m.Move_Rank <= 5 THEN 1 ELSE 0 END AS T5,
 m.CP_Loss AS ACPL,
 m.ScACPL,
 m.Score,
-m.MaxScore
+m.MaxScore,
+m.ScoreEqual,
+m.MaxScoreEqual
 
 FROM lake.Moves m
 JOIN lake.Games g ON
