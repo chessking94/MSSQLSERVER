@@ -45,7 +45,9 @@ CREATE TABLE [fact].[Event](
 	[Score_Z] [decimal](9, 6) NULL,
 	[ScoreEqual_Z] [decimal](9, 6) NULL,
 	[Composite_Z] [decimal](9, 6) NULL,
+	[Composite_Z_Equal] [decimal](9, 6) NULL,
 	[ROI]  AS ((5)*[Composite_Z]+(50)),
+	[ROI_Equal]  AS ((5)*[Composite_Z_Equal]+(50)),
  CONSTRAINT [PK_FEvent] PRIMARY KEY CLUSTERED 
 (
 	[EventID] ASC,

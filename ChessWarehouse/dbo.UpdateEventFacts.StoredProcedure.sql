@@ -21,7 +21,7 @@ BEGIN
 END
 
 
---add composite z-score
+--add composite z-scores
 /*
 	Methodology: Essentially a weighted average divided by the overall standard deviation
 	Mathematics taken from https://stats.stackexchange.com/questions/348192/combining-z-scores-by-weighted-average-sanity-check-please
@@ -31,5 +31,6 @@ DECLARE @ScACPL_Weight decimal(5,4) = 0.35
 DECLARE @Score_Weight decimal(5,4) = 0.45
 
 UPDATE fact.Event
-SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
+SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2)),
+	Composite_Z_Equal = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + ScoreEqual_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
 GO
