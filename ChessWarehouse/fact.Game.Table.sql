@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [fact].[Game](
 	[SourceID] [tinyint] NOT NULL,
-	[GameID] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[GameID] [int] NOT NULL,
 	[TimeControlID] [tinyint] NOT NULL,
 	[PlayerID] [int] NOT NULL,
 	[ColorID] [tinyint] NOT NULL,
@@ -62,6 +62,11 @@ ALTER TABLE [fact].[Game]  WITH CHECK ADD  CONSTRAINT [FK_FGame_ColorID] FOREIGN
 REFERENCES [dim].[Colors] ([ColorID])
 GO
 ALTER TABLE [fact].[Game] CHECK CONSTRAINT [FK_FGame_ColorID]
+GO
+ALTER TABLE [fact].[Game]  WITH CHECK ADD  CONSTRAINT [FK_FGame_GameID] FOREIGN KEY([GameID])
+REFERENCES [lake].[Games] ([GameID])
+GO
+ALTER TABLE [fact].[Game] CHECK CONSTRAINT [FK_FGame_GameID]
 GO
 ALTER TABLE [fact].[Game]  WITH CHECK ADD  CONSTRAINT [FK_FGame_PlayerID] FOREIGN KEY([PlayerID])
 REFERENCES [dim].[Players] ([PlayerID])
