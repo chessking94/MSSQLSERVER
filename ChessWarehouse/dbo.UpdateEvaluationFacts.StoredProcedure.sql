@@ -16,7 +16,7 @@ BEGIN
 	SELECT @mname = MeasurementName FROM dim.Measurements WHERE MeasurementID = @mid
 	EXEC UpdateZScores @AggregationName = 'Evaluation', @MeasurementName = @mname
 	EXEC UpdateZScores @AggregationName = 'Evaluation', @MeasurementName = @mname, @src = 'Personal', @src_stats = 'Control'
-	--EXEC UpdateZScores @AggregationName = 'Evaluation', @MeasurementName = @mname, @src = 'PersonalOnline', @src_stats = 'Control'
+	EXEC UpdateZScores @AggregationName = 'Evaluation', @MeasurementName = @mname, @src = 'PersonalOnline', @src_stats = 'Control'
 	SET @mid = @mid + 1
 END
 
