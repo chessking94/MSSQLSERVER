@@ -32,11 +32,13 @@ JOIN dim.Events e ON
 	g.EventID = e.EventID
 JOIN stage.Games stg ON
 	g.SourceID = stg.SourceName AND
+	ISNULL(g.SiteID, 0) = ISNULL(stg.SiteName, '0') AND
+	ISNULL(g.SiteGameID, '0') = ISNULL(stg.SiteGameID, '0') AND
 	w.LastName = stg.WhiteLast AND
 	ISNULL(w.FirstName, '') = ISNULL(stg.WhiteFirst, '') AND
 	b.LastName = stg.BlackLast AND
 	ISNULL(B.FirstName, '') = ISNULL(stg.BlackFirst, '') AND
 	g.GameDate = stg.GameDate AND
 	e.EventName = stg.EventName AND
-	g.RoundNum = stg.RoundNum
+	ISNULL(g.RoundNum, '') = ISNULL(stg.RoundNum, '')
 GO
