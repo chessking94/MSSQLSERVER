@@ -93,6 +93,7 @@ CREATE TABLE [lake].[Moves](
 	[TraceKey] [char](1) COLLATE Latin1_General_CS_AS NULL,
 	[ScoreEqual] [decimal](10, 9) NULL,
 	[MaxScoreEqual] [decimal](10, 9) NULL,
+	[MovesAnalyzed] [tinyint] NULL,
  CONSTRAINT [PK_LMoves] PRIMARY KEY CLUSTERED 
 (
 	[GameID] ASC,

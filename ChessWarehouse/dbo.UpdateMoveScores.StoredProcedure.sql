@@ -112,4 +112,49 @@ WHERE m.MoveScored = 1
 AND fh.FileID = @fileid
 AND t1.SourceID = dbo.GetSettingValue('ScoreEqual Source')
 AND t1.TimeControlID = dbo.GetSettingValue('ScoreEqual Time Control')
+
+--MovesAnalyzed
+UPDATE m
+SET m.MovesAnalyzed = (
+	CASE
+		WHEN m.T2_Eval IS NULL THEN 1
+		WHEN m.T3_Eval IS NULL THEN 2
+		WHEN m.T4_Eval IS NULL THEN 3
+		WHEN m.T5_Eval IS NULL THEN 4
+		WHEN m.T6_Eval IS NULL THEN 5
+		WHEN m.T7_Eval IS NULL THEN 6
+		WHEN m.T8_Eval IS NULL THEN 7
+		WHEN m.T9_Eval IS NULL THEN 8
+		WHEN m.T10_Eval IS NULL THEN 9
+		WHEN m.T11_Eval IS NULL THEN 10
+		WHEN m.T12_Eval IS NULL THEN 11
+		WHEN m.T13_Eval IS NULL THEN 12
+		WHEN m.T14_Eval IS NULL THEN 13
+		WHEN m.T15_Eval IS NULL THEN 14
+		WHEN m.T16_Eval IS NULL THEN 15
+		WHEN m.T17_Eval IS NULL THEN 16
+		WHEN m.T18_Eval IS NULL THEN 17
+		WHEN m.T19_Eval IS NULL THEN 18
+		WHEN m.T20_Eval IS NULL THEN 19
+		WHEN m.T21_Eval IS NULL THEN 20
+		WHEN m.T22_Eval IS NULL THEN 21
+		WHEN m.T23_Eval IS NULL THEN 22
+		WHEN m.T24_Eval IS NULL THEN 23
+		WHEN m.T25_Eval IS NULL THEN 24
+		WHEN m.T26_Eval IS NULL THEN 25
+		WHEN m.T27_Eval IS NULL THEN 26
+		WHEN m.T28_Eval IS NULL THEN 27
+		WHEN m.T29_Eval IS NULL THEN 28
+		WHEN m.T30_Eval IS NULL THEN 29
+		WHEN m.T31_Eval IS NULL THEN 30
+		WHEN m.T32_Eval IS NULL THEN 31
+		ELSE 32
+	END
+)
+
+FROM lake.Moves m
+JOIN lake.Games g ON m.GameID = g.GameID
+LEFT JOIN FileHistory fh ON g.FileID = fh.FileID
+
+WHERE fh.FileID = @fileid
 GO
