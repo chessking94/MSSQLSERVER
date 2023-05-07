@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import shutil
 
 
 def get_config(filepath, key):
@@ -43,8 +44,9 @@ def main():
     database = config['database']
 
     output_path = os.path.join(def_path, database)
-    if not os.path.isdir(output_path):
-        os.mkdir(output_path)
+    if os.path.isdir(output_path):
+        shutil.rmtree(output_path)
+    os.mkdir(output_path)
 
     cmd_text = f'mssql-scripter -S {server} -d {database}'
     cmd_text = cmd_text + ' --file-per-object'
