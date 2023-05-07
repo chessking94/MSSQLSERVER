@@ -110,6 +110,9 @@ BEGIN
 
 			--update move scores
 			EXEC dbo.UpdateMoveScores @fhid
+
+			--update game data
+			EXEC dbo.UpdateGameData @fhid
 		END
 	END
 

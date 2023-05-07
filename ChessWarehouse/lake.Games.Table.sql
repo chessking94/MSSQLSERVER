@@ -22,6 +22,8 @@ CREATE TABLE [lake].[Games](
 	[RoundNum] [tinyint] NULL,
 	[Result] [decimal](2, 1) NOT NULL,
 	[FileID] [int] NOT NULL,
+	[WhiteBerserk] [bit] NOT NULL,
+	[BlackBerserk] [bit] NOT NULL,
  CONSTRAINT [PK_LGames] PRIMARY KEY CLUSTERED 
 (
 	[GameID] ASC
@@ -60,6 +62,10 @@ CREATE NONCLUSTERED INDEX [IDX_LGames_WhitePlayerID] ON [lake].[Games]
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 ALTER TABLE [lake].[Games] ADD  CONSTRAINT [DF_LGames_DateAdded]  DEFAULT (getdate()) FOR [DateAdded]
+GO
+ALTER TABLE [lake].[Games] ADD  DEFAULT ((0)) FOR [WhiteBerserk]
+GO
+ALTER TABLE [lake].[Games] ADD  DEFAULT ((0)) FOR [BlackBerserk]
 GO
 ALTER TABLE [lake].[Games]  WITH CHECK ADD  CONSTRAINT [FK_LGames_BlackPlayerID] FOREIGN KEY([BlackPlayerID])
 REFERENCES [dim].[Players] ([PlayerID])
