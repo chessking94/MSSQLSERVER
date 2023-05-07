@@ -6,6 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE VIEW [dbo].[vwIndexReview]
 
 AS
@@ -13,9 +14,9 @@ AS
 --Query taken from https://www.sqlshack.com/how-to-identify-and-resolve-sql-server-index-fragmentation/
 
 SELECT
-s.name AS 'Schema',
-t.name AS 'Table',
-i.name AS 'Index',
+s.name AS 'Schema_Name',
+t.name AS 'Table_Name',
+i.name AS 'Index_Name',
 ddips.avg_fragmentation_in_percent,
 ddips.page_count
 
