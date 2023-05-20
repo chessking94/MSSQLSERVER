@@ -8,15 +8,22 @@ CREATE TABLE [stat].[EvalDistributions](
 	[SourceID] [tinyint] NOT NULL,
 	[TimeControlID] [tinyint] NOT NULL,
 	[Evaluation] [decimal](5, 2) NOT NULL,
+	[DistributionID] [tinyint] NOT NULL,
 	[PDF] [decimal](10, 9) NULL,
 	[CDF] [decimal](10, 9) NULL,
  CONSTRAINT [PK_EvalDistributions] PRIMARY KEY CLUSTERED 
 (
 	[SourceID] ASC,
 	[TimeControlID] ASC,
-	[Evaluation] ASC
+	[Evaluation] ASC,
+	[DistributionID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+ALTER TABLE [stat].[EvalDistributions]  WITH CHECK ADD  CONSTRAINT [FK_EvalDistribution_DistributionID] FOREIGN KEY([DistributionID])
+REFERENCES [stat].[DistributionTypes] ([DistributionID])
+GO
+ALTER TABLE [stat].[EvalDistributions] CHECK CONSTRAINT [FK_EvalDistribution_DistributionID]
 GO
 ALTER TABLE [stat].[EvalDistributions]  WITH CHECK ADD  CONSTRAINT [FK_EvalDistribution_SourceID] FOREIGN KEY([SourceID])
 REFERENCES [dim].[Sources] ([SourceID])
