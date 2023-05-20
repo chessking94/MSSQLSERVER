@@ -7,6 +7,8 @@ GO
 
 
 
+
+
 CREATE VIEW [lake].[vwEvaluationSummary]
 
 AS
@@ -24,6 +26,8 @@ CASE WHEN m.Move_Rank <= 4 THEN 1 ELSE 0 END AS T4,
 CASE WHEN m.Move_Rank <= 5 THEN 1 ELSE 0 END AS T5,
 m.CP_Loss AS ACPL,
 m.ScACPL,
+m.MoveScored,
+CASE WHEN c.Color = 'White' THEN g.WhiteBerserk ELSE g.BlackBerserk END AS Berserk,
 m.Score,
 m.MaxScore,
 m.ScoreEqual,
@@ -46,5 +50,4 @@ JOIN dim.EvaluationGroups eg ON
 	m.T1_Eval_POV >= eg.LBound AND
 	m.T1_Eval_POV <= eg.UBound
 
-WHERE m.MoveScored = 1
 GO

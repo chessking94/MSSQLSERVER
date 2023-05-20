@@ -82,6 +82,7 @@ LEFT JOIN dim.CPLossGroups cp ON
 	m.CP_Loss <= cp.UBound
 
 WHERE g.SourceID IN (3, 4)
+AND (CASE WHEN c.Color = 'White' THEN g.WhiteBerserk ELSE g.BlackBerserk END) = 0
 
 GROUP BY
 g.SourceID,
