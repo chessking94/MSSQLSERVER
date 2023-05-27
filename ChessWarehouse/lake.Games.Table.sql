@@ -63,9 +63,9 @@ CREATE NONCLUSTERED INDEX [IDX_LGames_WhitePlayerID] ON [lake].[Games]
 GO
 ALTER TABLE [lake].[Games] ADD  CONSTRAINT [DF_LGames_DateAdded]  DEFAULT (getdate()) FOR [DateAdded]
 GO
-ALTER TABLE [lake].[Games] ADD  DEFAULT ((0)) FOR [WhiteBerserk]
+ALTER TABLE [lake].[Games] ADD  CONSTRAINT [DF_LGames_WhiteBerserk]  DEFAULT ((0)) FOR [WhiteBerserk]
 GO
-ALTER TABLE [lake].[Games] ADD  DEFAULT ((0)) FOR [BlackBerserk]
+ALTER TABLE [lake].[Games] ADD  CONSTRAINT [DF_LGames_BlackBerserk]  DEFAULT ((0)) FOR [BlackBerserk]
 GO
 ALTER TABLE [lake].[Games]  WITH CHECK ADD  CONSTRAINT [FK_LGames_BlackPlayerID] FOREIGN KEY([BlackPlayerID])
 REFERENCES [dim].[Players] ([PlayerID])
