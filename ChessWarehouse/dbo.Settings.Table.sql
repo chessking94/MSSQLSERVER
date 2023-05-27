@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Settings](
 	[ID] [smallint] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Name] [varchar](40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Value] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Description] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Settings] PRIMARY KEY CLUSTERED 

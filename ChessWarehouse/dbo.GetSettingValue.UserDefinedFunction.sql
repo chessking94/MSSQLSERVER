@@ -4,7 +4,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[GetSettingValue] (@Key varchar(30))
+CREATE FUNCTION [dbo].[GetSettingValue] (@Key varchar(40))
 
 RETURNS varchar(100)
 

@@ -200,3 +200,32 @@ REFERENCES [dim].[Traces] ([TraceKey])
 GO
 ALTER TABLE [lake].[Moves] CHECK CONSTRAINT [FK_LMoves_Traces]
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [lake].[trg_InsertMoveScores] ON [lake].[Moves]
+
+AFTER INSERT
+
+AS
+
+INSERT INTO stat.MoveScores (
+	ScoreID,
+	GameID,
+	MoveNumber,
+	ColorID
+)
+
+SELECT
+sc.ScoreID,
+i.GameID,
+i.MoveNumber,
+i.ColorID
+
+FROM inserted i
+CROSS JOIN dim.Scores sc
+WHERE sc.ScoreActive = 1
+GO
+ALTER TABLE [lake].[Moves] ENABLE TRIGGER [trg_InsertMoveScores]
+GO

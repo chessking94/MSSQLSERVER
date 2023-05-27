@@ -9,6 +9,7 @@ CREATE PROCEDURE [dbo].[UpdateMoveScores] (@fileid int)
 
 AS
 
+--TraceKey
 ;WITH cte AS (
 	SELECT
 	m.GameID,
@@ -51,10 +52,11 @@ JOIN cte ON
 	m.MoveNumber = cte.MoveNumber AND
 	m.ColorID = cte.ColorID
 
-WHERE s.ID = 3
+WHERE s.ID = 3 --Max_Eval setting
 AND fh.FileID = @fileid
 
 
+--MoveScored
 UPDATE m
 SET m.MoveScored = 1
 
@@ -69,49 +71,6 @@ LEFT JOIN FileHistory fh ON
 WHERE t.Scored = 1
 AND fh.FileID = @fileid
 
---primary score
-UPDATE m
-SET m.Score = CAST(t1.PDF * CAST(POWER(t1.CDF - ISNULL(mp.CDF, 0) - 1, 4) AS decimal(10,9)) AS decimal(10,9)),
-	m.MaxScore = t1.PDF
-
-FROM lake.Moves m
-JOIN lake.Games g ON m.GameID = g.GameID
-JOIN dim.TimeControlDetail td ON g.TimeControlDetailID = td.TimeControlDetailID
-LEFT JOIN stat.EvalDistributions t1 ON
-	g.SourceID = t1.SourceID AND
-	td.TimeControlID = t1.TimeControlID AND
-	m.T1_Eval_POV = t1.Evaluation
-LEFT JOIN stat.EvalDistributions mp ON
-	g.SourceID = mp.SourceID AND
-	td.TimeControlID = mp.TimeControlID AND
-	m.Move_Eval_POV = mp.Evaluation
-LEFT JOIN FileHistory fh ON
-	g.FileID = fh.FileID
-
-WHERE m.MoveScored = 1
-AND fh.FileID = @fileid
-
---related score
-UPDATE m
-SET m.ScoreEqual = CAST(t1.PDF * CAST(POWER(t1.CDF - ISNULL(mp.CDF, 0) - 1, 4) AS decimal(10,9)) AS decimal(10,9)),
-	m.MaxScoreEqual = t1.PDF
-
-FROM lake.Moves m
-JOIN lake.Games g ON m.GameID = g.GameID
-JOIN dim.TimeControlDetail td ON g.TimeControlDetailID = td.TimeControlDetailID
-LEFT JOIN stat.EvalDistributions t1 ON
-	m.T1_Eval_POV = t1.Evaluation
-LEFT JOIN stat.EvalDistributions mp ON
-	t1.SourceID = mp.SourceID AND
-	t1.TimeControlID = mp.TimeControlID AND
-	m.Move_Eval_POV = mp.Evaluation
-LEFT JOIN FileHistory fh ON
-	g.FileID = fh.FileID
-
-WHERE m.MoveScored = 1
-AND fh.FileID = @fileid
-AND t1.SourceID = dbo.GetSettingValue('ScoreEqual Source')
-AND t1.TimeControlID = dbo.GetSettingValue('ScoreEqual Time Control')
 
 --MovesAnalyzed
 UPDATE m
@@ -157,4 +116,31 @@ JOIN lake.Games g ON m.GameID = g.GameID
 LEFT JOIN FileHistory fh ON g.FileID = fh.FileID
 
 WHERE fh.FileID = @fileid
+
+
+--stat.MoveScores
+DECLARE @ScoreID tinyint
+DECLARE @vsql nvarchar(MAX)
+DECLARE @ScoreProc nvarchar(MAX)	
+
+CREATE TABLE #activescoreid (ScoreID tinyint NOT NULL)
+INSERT INTO #activescoreid
+SELECT ScoreID FROM dim.Scores WHERE ScoreActive = 1
+
+SET @ScoreID = (SELECT TOP 1 ScoreID FROM #activescoreid)
+WHILE @ScoreID IS NOT NULL
+BEGIN
+	SET @ScoreProc = (SELECT ScoreProc FROM dim.Scores WHERE ScoreID = @ScoreID)
+
+	IF @fileid IS NOT NULL SET @vsql = N'EXEC ' + @ScoreProc + ' ' + CONVERT(nvarchar(5), @fileid)
+	ELSE SET @vsql = N'EXEC ' + @ScoreProc
+
+	--PRINT @vsql
+	EXEC sp_executesql @vsql
+
+	DELETE FROM #activescoreid WHERE ScoreID = @ScoreID
+	SET @ScoreID = (SELECT TOP 1 ScoreID FROM #activescoreid)
+ENd
+
+DROP TABLE #activescoreid
 GO
