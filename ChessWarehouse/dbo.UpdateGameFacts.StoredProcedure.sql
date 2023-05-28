@@ -32,4 +32,36 @@ DECLARE @Score_Weight decimal(5,4) = 0.45
 
 UPDATE fact.Game
 SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
+
+
+--add z-scores for fact.GameScores
+SELECT
+SourceID,
+ColorID,
+ScoreID,
+COUNT(GameID) Ct_Score,
+AVG(Score) Avg_Score,
+STDEV(Score) SD_Score
+
+INTO #tmpgamescores
+
+FROM fact.GameScores
+
+GROUP BY
+SourceID,
+ColorID,
+ScoreID
+
+
+--TODO: this is z-scoring personal/personalonline with itself and not with a control dataset, review and enhance
+UPDATE gs
+SET gs.Score_Z = (CASE WHEN t.SD_Score = 0 THEN 0 ELSE (gs.Score - t.Avg_Score)/t.SD_Score END)
+FROM fact.GameScores gs
+JOIN #tmpgamescores t ON
+	gs.SourceID = t.SourceID AND
+	gs.ColorID = t.ColorID AND
+	gs.ScoreID = t.ScoreID
+
+
+DROP TABLE #tmpgamescores
 GO

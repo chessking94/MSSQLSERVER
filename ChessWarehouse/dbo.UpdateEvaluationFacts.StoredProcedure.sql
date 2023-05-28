@@ -32,4 +32,7 @@ DECLARE @Score_Weight decimal(5,4) = 0.45
 
 UPDATE fact.Evaluation
 SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
+
+
+--TODO: TBD if there's a reasonable way to do z-scores here, since the data is already aggregated there might not be one
 GO

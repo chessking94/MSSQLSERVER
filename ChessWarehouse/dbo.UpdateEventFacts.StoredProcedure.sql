@@ -32,4 +32,37 @@ DECLARE @Score_Weight decimal(5,4) = 0.45
 
 UPDATE fact.Event
 SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
+
+
+--add z-scores for fact.EventScores
+SELECT
+SourceID,
+TimeControlID,
+ScoreID,
+COUNT(EventID) Ct_Score,
+AVG(Score) Avg_Score,
+STDEV(Score) SD_Score
+
+INTO #tmpeventscores
+
+FROM fact.EventScores
+
+GROUP BY
+SourceID,
+TimeControlID,
+ScoreID
+
+
+--TODO: this is z-scoring personal/personalonline with itself and not with a control dataset, review and enhance
+UPDATE es
+SET es.Score_Z = (CASE WHEN t.SD_Score = 0 THEN 0 ELSE (es.Score - t.Avg_Score)/t.SD_Score END)
+FROM fact.EventScores es
+JOIN #tmpeventscores t ON
+	es.SourceID = t.SourceID AND
+	es.TimeControlID = t.TimeControlID AND
+	es.ScoreID = t.ScoreID
+
+
+DROP TABLE #tmpeventscores
+
 GO
