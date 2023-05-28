@@ -8,6 +8,7 @@ CREATE PROCEDURE [dbo].[InsertEvaluationFacts]
 
 AS
 
+--fact.Evaluation
 TRUNCATE TABLE fact.Evaluation
 
 INSERT INTO fact.Evaluation (
@@ -85,10 +86,59 @@ LEFT JOIN dim.CPLossGroups cp ON
 
 WHERE g.SourceID IN (3, 4)
 AND (CASE WHEN c.Color = 'White' THEN g.WhiteBerserk ELSE g.BlackBerserk END) = 0
+AND ms.ScoreID = dbo.GetSettingValue('Default Score')
 
 GROUP BY
 g.SourceID,
 e.EvaluationGroupID,
 td.TimeControlID,
 r.RatingID
+
+
+--fact.EvaluationScores
+TRUNCATE TABLE fact.EvaluationScores
+
+INSERT INTO fact.EvaluationScores (
+	SourceID,
+	EvaluationGroupID,
+	TimeControlID,
+	RatingID,
+	ScoreID,
+	Score
+)
+
+SELECT
+g.SourceID,
+e.EvaluationGroupID,
+td.TimeControlID,
+r.RatingID,
+ms.ScoreID,
+100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.ScoreValue END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.MaxScoreValue END) AS Score
+
+FROM lake.Moves m
+JOIN stat.MoveScores ms ON
+	m.GameID = ms.GameID AND
+	m.MoveNumber = ms.MoveNumber AND
+	m.ColorID = ms.ColorID
+JOIN lake.Games g
+	ON m.GameID = g.GameID
+JOIN dim.TimeControlDetail td
+	ON g.TimeControlDetailID = td.TimeControlDetailID
+JOIN dim.Colors c
+	ON m.ColorID = c.ColorID
+JOIN dim.Ratings r ON
+	(CASE WHEN c.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) >= r.RatingID AND
+	(CASE WHEN c.Color = 'White' THEN g.WhiteElo ELSE g.BlackElo END) <= r.RatingUpperBound
+JOIN dim.EvaluationGroups e ON
+	m.T1_Eval_POV >= e.LBound AND m.T1_Eval_POV <= e.UBound
+
+WHERE g.SourceID IN (3, 4)
+AND (CASE WHEN c.Color = 'White' THEN g.WhiteBerserk ELSE g.BlackBerserk END) = 0
+
+GROUP BY
+g.SourceID,
+e.EvaluationGroupID,
+td.TimeControlID,
+r.RatingID,
+ms.ScoreID
 GO

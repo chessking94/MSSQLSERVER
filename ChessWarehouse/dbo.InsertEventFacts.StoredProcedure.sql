@@ -8,6 +8,7 @@ CREATE PROCEDURE [dbo].[InsertEventFacts]
 
 AS
 
+--fact.Event
 TRUNCATE TABLE fact.Event
 
 INSERT INTO fact.Event (
@@ -86,6 +87,7 @@ LEFT JOIN dim.CPLossGroups cp ON
 	m.CP_Loss <= cp.UBound
 
 WHERE g.SourceID NOT IN (2, 4)
+AND ms.ScoreID = dbo.GetSettingValue('Default Score')
 
 GROUP BY
 g.EventID,
@@ -93,4 +95,46 @@ g.SourceID,
 td.TimeControlID,
 CASE WHEN c.Color = 'White' THEN g.WhitePlayerID ELSE g.BlackPlayerID END,
 r.RatingID
+
+
+--fact.EventScores
+TRUNCATE TABLE fact.EventScores
+
+INSERT INTO fact.EventScores (
+	EventID,
+	SourceID,
+	TimeControlID,
+	PlayerID,
+	ScoreID,
+	Score
+)
+
+SELECT
+g.EventID,
+g.SourceID,
+td.TimeControlID,
+CASE WHEN c.Color = 'White' THEN g.WhitePlayerID ELSE g.BlackPlayerID END AS PlayerID,
+ms.ScoreID,
+100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.ScoreValue END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.MaxScoreValue END) AS Score
+
+FROM lake.Moves m
+JOIN stat.MoveScores ms ON
+	m.GameID = ms.GameID AND
+	m.MoveNumber = ms.MoveNumber AND
+	m.ColorID = ms.ColorID
+JOIN lake.Games g
+	ON m.GameID = g.GameID
+JOIN dim.TimeControlDetail td
+	ON g.TimeControlDetailID = td.TimeControlDetailID
+JOIN dim.Colors c
+	ON m.ColorID = c.ColorID
+
+WHERE g.SourceID NOT IN (2, 4)
+
+GROUP BY
+g.EventID,
+g.SourceID,
+td.TimeControlID,
+CASE WHEN c.Color = 'White' THEN g.WhitePlayerID ELSE g.BlackPlayerID END,
+ms.ScoreID
 GO

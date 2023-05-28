@@ -8,6 +8,7 @@ CREATE PROCEDURE [dbo].[InsertGameFactsNew]
 
 AS
 
+--fact.Game
 INSERT INTO fact.Game (
 	SourceID,
 	GameID,
@@ -85,10 +86,10 @@ LEFT JOIN dim.CPLossGroups cp ON
 LEFT JOIN fact.Game fg ON
 	g.SourceID = fg.SourceID AND
 	g.GameID = fg.GameID AND
-	td.TimeControlID = fg.TimeControlID AND
 	m.ColorID = fg.ColorID
 
 WHERE fg.GameID IS NULL
+AND ms.ScoreID = dbo.GetSettingValue('Default Score')
 
 GROUP BY
 g.SourceID,
@@ -97,4 +98,42 @@ td.TimeControlID,
 CASE WHEN c.Color = 'White' THEN g.WhitePlayerID ELSE g.BlackPlayerID END,
 m.ColorID,
 r.RatingID
+
+
+--fact.GameScores
+INSERT INTO fact.GameScores (
+	SourceID,
+	GameID,
+	ColorID,
+	ScoreID,
+	Score
+)
+
+SELECT
+g.SourceID,
+g.GameID,
+m.ColorID,
+ms.ScoreID,
+100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.ScoreValue END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.MaxScoreValue END) AS Score
+
+FROM lake.Moves m
+JOIN stat.MoveScores ms ON
+	m.GameID = ms.GameID AND
+	m.MoveNumber = ms.MoveNumber AND
+	m.ColorID = ms.ColorID
+JOIN lake.Games g ON
+	m.GameID = g.GameID
+LEFT JOIN fact.GameScores fgs ON
+	g.SourceID = fgs.SourceID AND
+	g.GameID = fgs.GameID AND
+	m.ColorID = fgs.ColorID AND
+	ms.ScoreID = fgs.ScoreID
+
+WHERE fgs.ScoreID IS NULL
+
+GROUP BY
+g.SourceID,
+g.GameID,
+m.ColorID,
+ms.ScoreID
 GO
