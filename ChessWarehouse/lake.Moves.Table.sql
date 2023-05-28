@@ -22,8 +22,6 @@ CREATE TABLE [lake].[Moves](
 	[T1_Eval_POV]  AS (case when [T1_Eval] like '#%' then NULL else CONVERT([decimal](5,2),[T1_Eval])*isnull(nullif(CONVERT([smallint],[ColorID]),(2)),(-1)) end) PERSISTED,
 	[Move_Eval_POV]  AS (case when [Move_Eval] like '#%' then NULL else CONVERT([decimal](5,2),[Move_Eval])*isnull(nullif(CONVERT([smallint],[ColorID]),(2)),(-1)) end) PERSISTED,
 	[CP_Loss] [decimal](5, 2) NULL,
-	[Score] [decimal](10, 9) NULL,
-	[MaxScore] [decimal](10, 9) NULL,
 	[T1] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[T1_Eval] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[T2] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -91,8 +89,6 @@ CREATE TABLE [lake].[Moves](
 	[ScACPL]  AS (case when [CP_Loss] IS NULL OR left([T1_Eval],(1))='#' then NULL else CONVERT([decimal](5,2),[CP_Loss])/((1)+abs(CONVERT([decimal](5,2),[T1_Eval]))) end) PERSISTED,
 	[MoveScored] [bit] NOT NULL,
 	[TraceKey] [char](1) COLLATE Latin1_General_CS_AS NULL,
-	[ScoreEqual] [decimal](10, 9) NULL,
-	[MaxScoreEqual] [decimal](10, 9) NULL,
 	[MovesAnalyzed] [tinyint] NULL,
  CONSTRAINT [PK_LMoves] PRIMARY KEY CLUSTERED 
 (
@@ -156,8 +152,6 @@ CREATE NONCLUSTERED INDEX [IDX_LMoves_MoveScored] ON [lake].[Moves]
 )
 INCLUDE ( 	[Move_Rank],
 	[CP_Loss],
-	[Score],
-	[MaxScore],
 	[ScACPL]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [IDX_LMoves_PhaseID] ON [lake].[Moves]

@@ -36,8 +36,7 @@ INSERT INTO fact.Event (
 	T3,
 	T4,
 	T5,
-	Score,
-	ScoreEqual
+	Score
 )
 
 SELECT
@@ -66,10 +65,13 @@ CASE WHEN (SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END)) = 0 THEN NULL ELSE
 1.00*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE (CASE WHEN m.Move_Rank <= 3 THEN 1 ELSE 0 END) END)/SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END) AS T3,
 1.00*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE (CASE WHEN m.Move_Rank <= 4 THEN 1 ELSE 0 END) END)/SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END) AS T4,
 1.00*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE (CASE WHEN m.Move_Rank <= 5 THEN 1 ELSE 0 END) END)/SUM(CASE WHEN m.MoveScored = 1 THEN 1 ELSE 0 END) AS T5,
-100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.Score END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.MaxScore END) AS Score,
-100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.ScoreEqual END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE m.MaxScoreEqual END) AS ScoreEqual
+100*SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.ScoreValue END)/SUM(CASE WHEN m.MoveScored = 0 THEN NULL ELSE ms.MaxScoreValue END) AS Score
 
 FROM lake.Moves m
+JOIN stat.MoveScores ms ON
+	m.GameID = ms.GameID AND
+	m.MoveNumber = ms.MoveNumber AND
+	m.ColorID = ms.ColorID
 JOIN lake.Games g
 	ON m.GameID = g.GameID
 JOIN dim.TimeControlDetail td

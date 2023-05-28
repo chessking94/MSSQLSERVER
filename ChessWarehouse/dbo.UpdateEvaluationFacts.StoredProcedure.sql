@@ -11,7 +11,7 @@ AS
 --add z-scores
 DECLARE @mid tinyint = 1
 DECLARE @mname varchar(15)
-WHILE @mid <= 11
+WHILE @mid <= 10
 BEGIN
 	SELECT @mname = MeasurementName FROM dim.Measurements WHERE MeasurementID = @mid
 	EXEC UpdateZScores @AggregationName = 'Evaluation', @MeasurementName = @mname
@@ -31,6 +31,5 @@ DECLARE @ScACPL_Weight decimal(5,4) = 0.35
 DECLARE @Score_Weight decimal(5,4) = 0.45
 
 UPDATE fact.Evaluation
-SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2)),
-	Composite_Z_Equal = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + ScoreEqual_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
+SET Composite_Z = (T1_Z*@T1_Weight + ScACPL_Z*@ScACPL_Weight + Score_Z*@Score_Weight)/SQRT(POWER(@T1_Weight, 2) + POWER(@ScACPL_Weight, 2) + POWER(@Score_Weight, 2))
 GO

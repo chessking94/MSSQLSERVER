@@ -9,6 +9,7 @@ GO
 
 
 
+
 CREATE VIEW [lake].[vwEvaluationSummary]
 
 AS
@@ -28,12 +29,14 @@ m.CP_Loss AS ACPL,
 m.ScACPL,
 m.MoveScored,
 CASE WHEN c.Color = 'White' THEN g.WhiteBerserk ELSE g.BlackBerserk END AS Berserk,
-m.Score,
-m.MaxScore,
-m.ScoreEqual,
-m.MaxScoreEqual
+ms.ScoreValue,
+ms.MaxScoreValue
 
 FROM lake.Moves m
+JOIN stat.MoveScores ms ON
+	m.GameID = ms.GameID AND
+	m.MoveNumber = ms.MoveNumber AND
+	m.ColorID = ms.ColorID
 JOIN lake.Games g ON
 	m.GameID = g.GameID
 JOIN dim.Sources s ON
@@ -49,5 +52,7 @@ JOIN dim.Ratings r ON
 JOIN dim.EvaluationGroups eg ON
 	m.T1_Eval_POV >= eg.LBound AND
 	m.T1_Eval_POV <= eg.UBound
+
+WHERE ms.ScoreID = 1 --TODO: Revisit this in the future
 
 GO
