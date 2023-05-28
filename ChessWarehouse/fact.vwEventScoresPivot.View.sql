@@ -1,0 +1,25 @@
+﻿USE [ChessWarehouse]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [fact].[vwEventScoresPivot] AS
+SELECT
+pt.*
+
+FROM (
+	SELECT
+	es.EventID,
+	es.SourceID,
+	es.TimeControlID,
+	es.PlayerID,
+	sc.ScoreName,
+	es.Score
+	FROM fact.EventScores es
+	JOIN dim.Scores sc ON es.ScoreID = sc.ScoreID
+) s
+PIVOT (
+	SUM(s.Score) FOR s.ScoreName IN ([TestScore], [WinProbabilityLost], [WinProbabilityLostEqual])
+) AS pt
+GO

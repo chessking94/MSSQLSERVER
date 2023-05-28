@@ -22,3 +22,21 @@ CREATE TABLE [dim].[Scores](
 GO
 ALTER TABLE [dim].[Scores] ADD  CONSTRAINT [DF_Scores_ScoreActive]  DEFAULT ((0)) FOR [ScoreActive]
 GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dim].[trg_Scores] ON [dim].[Scores]
+
+AFTER INSERT, DELETE
+
+AS
+
+BEGIN
+
+	EXEC dbo.CreateScoreViews
+
+END
+GO
+ALTER TABLE [dim].[Scores] ENABLE TRIGGER [trg_Scores]
+GO
