@@ -9,7 +9,7 @@ CREATE PROCEDURE [dbo].[InsertGameFacts]
 AS
 
 --fact.Game
-TRUNCATE TABLE fact.Game
+DELETE FROM fact.Game
 
 INSERT INTO fact.Game (
 	SourceID,
@@ -98,8 +98,6 @@ r.RatingID
 
 
 --fact.GameScores
-TRUNCATE TABLE fact.GameScores
-
 INSERT INTO fact.GameScores (
 	SourceID,
 	GameID,

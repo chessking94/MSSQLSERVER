@@ -22,6 +22,7 @@ CREATE TABLE [fact].[GameScores](
 GO
 ALTER TABLE [fact].[GameScores]  WITH CHECK ADD  CONSTRAINT [FK_GameScores_FactGame] FOREIGN KEY([SourceID], [GameID], [ColorID])
 REFERENCES [fact].[Game] ([SourceID], [GameID], [ColorID])
+ON DELETE CASCADE
 GO
 ALTER TABLE [fact].[GameScores] CHECK CONSTRAINT [FK_GameScores_FactGame]
 GO

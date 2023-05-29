@@ -24,6 +24,7 @@ CREATE TABLE [fact].[EventScores](
 GO
 ALTER TABLE [fact].[EventScores]  WITH CHECK ADD  CONSTRAINT [FK_EventScores_FactEvent] FOREIGN KEY([EventID], [SourceID], [TimeControlID], [PlayerID])
 REFERENCES [fact].[Event] ([EventID], [SourceID], [TimeControlID], [PlayerID])
+ON DELETE CASCADE
 GO
 ALTER TABLE [fact].[EventScores] CHECK CONSTRAINT [FK_EventScores_FactEvent]
 GO

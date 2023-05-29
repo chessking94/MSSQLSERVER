@@ -9,7 +9,7 @@ CREATE PROCEDURE [dbo].[InsertEventFacts]
 AS
 
 --fact.Event
-TRUNCATE TABLE fact.Event
+DELETE FROM fact.Event
 
 INSERT INTO fact.Event (
 	EventID,
@@ -98,8 +98,6 @@ r.RatingID
 
 
 --fact.EventScores
-TRUNCATE TABLE fact.EventScores
-
 INSERT INTO fact.EventScores (
 	EventID,
 	SourceID,

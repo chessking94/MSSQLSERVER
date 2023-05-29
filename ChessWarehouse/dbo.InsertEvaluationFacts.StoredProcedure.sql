@@ -9,7 +9,7 @@ CREATE PROCEDURE [dbo].[InsertEvaluationFacts]
 AS
 
 --fact.Evaluation
-TRUNCATE TABLE fact.Evaluation
+DELETE FROM fact.Evaluation
 
 INSERT INTO fact.Evaluation (
 	SourceID,
@@ -96,8 +96,6 @@ r.RatingID
 
 
 --fact.EvaluationScores
-TRUNCATE TABLE fact.EvaluationScores
-
 INSERT INTO fact.EvaluationScores (
 	SourceID,
 	EvaluationGroupID,

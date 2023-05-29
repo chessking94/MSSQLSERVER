@@ -24,6 +24,7 @@ CREATE TABLE [fact].[EvaluationScores](
 GO
 ALTER TABLE [fact].[EvaluationScores]  WITH CHECK ADD  CONSTRAINT [FK_EvaluationScores_FactEvaluation] FOREIGN KEY([SourceID], [EvaluationGroupID], [TimeControlID], [RatingID])
 REFERENCES [fact].[Evaluation] ([SourceID], [EvaluationGroupID], [TimeControlID], [RatingID])
+ON DELETE CASCADE
 GO
 ALTER TABLE [fact].[EvaluationScores] CHECK CONSTRAINT [FK_EvaluationScores_FactEvaluation]
 GO
