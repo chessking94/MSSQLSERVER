@@ -32,4 +32,5 @@ WHERE m.MoveScored = 1
 AND t1.SourceID = dbo.GetSettingValue('WinProbabilityLostEqual Source')
 AND t1.TimeControlID = dbo.GetSettingValue('WinProbabilityLostEqual Time Control')
 AND (fh.FileID = @FileID OR ISNULL(@FileID, -1) = -1)
+AND ms.ScoreID = 2
 GO
