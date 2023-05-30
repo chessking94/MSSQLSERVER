@@ -90,6 +90,10 @@ CREATE TABLE [lake].[Moves](
 	[MoveScored] [bit] NOT NULL,
 	[TraceKey] [char](1) COLLATE Latin1_General_CS_AS NULL,
 	[MovesAnalyzed] [tinyint] NULL,
+	[T2_Eval_POV]  AS (case when [T2_Eval] like '#%' then NULL else CONVERT([decimal](5,2),[T2_Eval])*isnull(nullif(CONVERT([smallint],[ColorID]),(2)),(-1)) end) PERSISTED,
+	[T3_Eval_POV]  AS (case when [T3_Eval] like '#%' then NULL else CONVERT([decimal](5,2),[T3_Eval])*isnull(nullif(CONVERT([smallint],[ColorID]),(2)),(-1)) end) PERSISTED,
+	[T4_Eval_POV]  AS (case when [T4_Eval] like '#%' then NULL else CONVERT([decimal](5,2),[T4_Eval])*isnull(nullif(CONVERT([smallint],[ColorID]),(2)),(-1)) end) PERSISTED,
+	[T5_Eval_POV]  AS (case when [T5_Eval] like '#%' then NULL else CONVERT([decimal](5,2),[T5_Eval])*isnull(nullif(CONVERT([smallint],[ColorID]),(2)),(-1)) end) PERSISTED,
  CONSTRAINT [PK_LMoves] PRIMARY KEY CLUSTERED 
 (
 	[GameID] ASC,
@@ -124,7 +128,10 @@ GO
 CREATE NONCLUSTERED INDEX [IDX_LMoves_Evals] ON [lake].[Moves]
 (
 	[T1_Eval_POV] ASC,
-	[Move_Eval_POV] ASC
+	[T2_Eval_POV] ASC,
+	[T3_Eval_POV] ASC,
+	[T4_Eval_POV] ASC,
+	[T5_Eval_POV] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [IDX_LMoves_GameID] ON [lake].[Moves]
