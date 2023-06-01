@@ -20,6 +20,6 @@ FROM (
 	JOIN dim.Scores sc ON es.ScoreID = sc.ScoreID
 ) s
 PIVOT (
-	SUM(s.Score) FOR s.ScoreName IN ([TestScore], [WinProbabilityLost], [WinProbabilityLostEqual])
+	SUM(s.Score) FOR s.ScoreName IN ([EvaluationGroupComparison], [TestScore], [WinProbabilityLost], [WinProbabilityLostEqual])
 ) AS pt
 GO

@@ -8,6 +8,8 @@ CREATE PROCEDURE [dbo].[InsertEvaluationSplits]
 
 AS
 
+TRUNCATE TABLE fact.EvaluationSplits
+
 INSERT INTO fact.EvaluationSplits (
 	SourceID,
 	TimeControlID,
